@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    # 配置DataFixtures在开发环境中自动加载
+    Tourze\LarkAppBotBundle\DataFixtures\:
+        resource: '../../DataFixtures/'

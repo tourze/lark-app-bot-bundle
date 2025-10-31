@@ -1,0 +1,140 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # 配置DataFixtures在测试环境中自动加载
+    Tourze\LarkAppBotBundle\DataFixtures\:
+        resource: '../../DataFixtures/'
+
+    # Mock服务，用于测试隔离（符合PHPStan规则的服务名称）
+    MockCsvOutputHelper:
+        class: Tourze\LarkAppBotBundle\Command\Output\CsvOutputHelper
+
+    MockGroupEventHandler:
+        alias: Tourze\LarkAppBotBundle\Service\Group\GroupEventHandler
+
+    MockLarkLogger:
+        alias: Tourze\LarkAppBotBundle\Service\Logger\LarkLogger
+
+    MockLarkLoggerDebugDisabled:
+        parent: Tourze\LarkAppBotBundle\Service\Logger\LarkLogger
+        arguments:
+          $debug: false
+
+    MockMenuService:
+        alias: Tourze\LarkAppBotBundle\Service\Menu\MenuService
+
+    MockApiTesterFeishu:
+        class: Tourze\LarkAppBotBundle\Command\Helper\ApiTester
+        arguments:
+          $larkClient: '@Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface'
+          $config:
+            api_domain: 'https://open.feishu.cn'
+        public: true
+
+    MockApiTesterInvalidDomain:
+        class: Tourze\LarkAppBotBundle\Command\Helper\ApiTester
+        arguments:
+          $larkClient: '@Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface'
+          $config:
+            api_domain: 'invalid-domain'
+        public: true
+
+    MockApiTesterEmptyConfig:
+        class: Tourze\LarkAppBotBundle\Command\Helper\ApiTester
+        arguments:
+          $larkClient: '@Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface'
+          $config: { }
+        public: true
+
+    # VO 测试专用服务
+    MockCommandExecutionContext:
+        class: Tourze\LarkAppBotBundle\Command\CommandExecutionContext
+        arguments:
+          $identifier: 'id_1'
+          $type: 'open_id'
+          $isBatch: true
+          $showDepartment: false
+          $showGroups: true
+          $format: 'json'
+          $fields: ['name','email']
+        public: true
+
+    # ConfigurationValidator 的不同配置变体
+    MockConfigurationValidatorEmpty:
+        class: Tourze\LarkAppBotBundle\Command\Helper\ConfigurationValidator
+        arguments:
+          $config: { }
+        public: true
+
+    MockConfigurationValidatorInvalidDomain:
+        class: Tourze\LarkAppBotBundle\Command\Helper\ConfigurationValidator
+        arguments:
+          $config:
+            lark_app_bot:
+              app_id: 'a'
+              app_secret: 'b'
+              api_domain: 'https://invalid.domain.com'
+        public: true
+
+    MockConfigurationValidatorValid:
+        class: Tourze\LarkAppBotBundle\Command\Helper\ConfigurationValidator
+        arguments:
+          $config:
+            lark_app_bot:
+              app_id: 'app_id_12345678'
+              app_secret: 'secret_abcdefgh'
+              api_domain: 'https://open.feishu.cn'
+        public: true
+
+    # 外部协作工具类作为服务，便于集成测试
+    MockAuditExporter:
+        class: Tourze\LarkAppBotBundle\Service\ExternalCollaboration\AuditExporter
+        public: true
+    MockAuditStatistics:
+        class: Tourze\LarkAppBotBundle\Service\ExternalCollaboration\AuditStatistics
+        arguments:
+          $logs:
+            - { timestamp: 1700000000, is_external: true, event_type: 'security_violation', level: 'error' }
+            - { timestamp: 1700001000, is_external: false, event_type: 'permission_changed', level: 'info' }
+        public: true
+
+    # 配置检查器服务的Mock版本
+    MockAuthConfigChecker:
+        class: Tourze\LarkAppBotBundle\Command\Checker\AuthConfigChecker
+        arguments:
+          $config: '%lark_app_bot%'
+          $tokenManager: '@Tourze\LarkAppBotBundle\Service\Authentication\TokenProviderInterface'
+
+    MockBasicConfigChecker:
+        class: Tourze\LarkAppBotBundle\Command\Checker\BasicConfigChecker
+        arguments:
+          $config: '%lark_app_bot%'
+
+    MockCacheConfigChecker:
+        class: Tourze\LarkAppBotBundle\Command\Checker\CacheConfigChecker
+        arguments:
+          $config: '%lark_app_bot%'
+
+    MockPermissionsChecker:
+        class: Tourze\LarkAppBotBundle\Command\Checker\PermissionsChecker
+        arguments:
+          $config: '%lark_app_bot%'
+
+    MockWebhookConfigChecker:
+        class: Tourze\LarkAppBotBundle\Command\Checker\WebhookConfigChecker
+        arguments:
+          $config: '%lark_app_bot%'
+
+    MockApiConnectionChecker:
+        class: Tourze\LarkAppBotBundle\Command\Checker\ApiConnectionChecker
+        arguments:
+          $config: '%lark_app_bot%'
+          $larkClient: '@Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface'
+
+    MockPerformanceMonitor:
+        class: Tourze\LarkAppBotBundle\Service\Performance\PerformanceMonitor
+        arguments:
+          $metricsCollector: '@Tourze\LarkAppBotBundle\Service\Performance\MetricsCollector'
+          $logger: '@logger'
