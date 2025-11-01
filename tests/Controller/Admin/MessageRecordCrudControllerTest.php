@@ -53,8 +53,7 @@ final class MessageRecordCrudControllerTest extends AbstractEasyAdminControllerT
 
     public function testIndexPage(): void
     {
-        $client = self::createClientWithDatabase();
-        $this->loginAsAdmin($client);
+        $client = self::createAuthenticatedClient();
 
         $crawler = $client->request('GET', '/admin');
         self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
