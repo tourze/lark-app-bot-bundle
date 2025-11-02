@@ -137,7 +137,7 @@ class UserTracker
      * @param int    $limit      返回的记录数
      * @param int    $offset     偏移量
      *
-     * @return array<string, mixed>
+     * @return array{activities: list<array<string, mixed>>, total: int}
      */
     public function getUserActivityHistory(
         string $userId,
@@ -156,17 +156,17 @@ class UserTracker
                 ];
             }
 
+            /** @var list<array<string, mixed>> $allActivities */
             $allActivities = $item->get() ?? [];
-            \assert(\is_array($allActivities));
 
             // 清理过期的活动记录
             $allActivities = $this->cleanExpiredActivities($allActivities);
 
             // 按时间倒序排序
-            usort($allActivities, function ($a, $b) {
-                \assert(\is_int($a['timestamp']) && \is_int($b['timestamp']));
-
-                return $b['timestamp'] - $a['timestamp'];
+            usort($allActivities, function (array $a, array $b): int {
+                $aTime = isset($a['timestamp']) && is_int($a['timestamp']) ? $a['timestamp'] : 0;
+                $bTime = isset($b['timestamp']) && is_int($b['timestamp']) ? $b['timestamp'] : 0;
+                return $bTime - $aTime;
             });
 
             // 分页返回
@@ -217,10 +217,8 @@ class UserTracker
         $cutoffTime = time() - $period;
         $recentActivities = array_filter(
             $activities,
-            function ($activity) use ($cutoffTime) {
-                \assert(\is_array($activity) && \is_int($activity['timestamp']));
-
-                return $activity['timestamp'] >= $cutoffTime;
+            function (array $activity) use ($cutoffTime): bool {
+                return isset($activity['timestamp']) && is_int($activity['timestamp']) && $activity['timestamp'] >= $cutoffTime;
             }
         );
 
@@ -229,12 +227,17 @@ class UserTracker
         $hourlyDistribution = array_fill(0, 24, 0);
 
         foreach ($recentActivities as $activity) {
+            if (!isset($activity['activity']) || !is_string($activity['activity'])) {
+                continue;
+            }
             $type = $activity['activity'];
             $activitiesByType[$type] = ($activitiesByType[$type] ?? 0) + 1;
 
             // 统计小时分布
-            $hour = (int) date('H', $activity['timestamp']);
-            ++$hourlyDistribution[$hour];
+            if (isset($activity['timestamp']) && is_int($activity['timestamp'])) {
+                $hour = (int) date('H', $activity['timestamp']);
+                ++$hourlyDistribution[$hour];
+            }
         }
 
         // 找出最活跃的小时
@@ -379,6 +382,7 @@ class UserTracker
 
         try {
             $item = $this->cache->getItem($cacheKey);
+            /** @var list<array<string, mixed>> $activities */
             $activities = $item->isHit() ? ($item->get() ?? []) : [];
 
             // 添加新活动
@@ -412,10 +416,16 @@ class UserTracker
 
         try {
             $item = $this->cache->getItem($cacheKey);
+            /** @var array{total: int, by_type: array<string, int>, by_date: array<string, int>} $stats */
             $stats = $item->isHit() ? ($item->get() ?? []) : [];
 
+            // 确保 stats 有正确的结构
+            if (!isset($stats['total'])) {
+                $stats = ['total' => 0, 'by_type' => [], 'by_date' => []];
+            }
+
             // 更新总计数
-            $stats['total'] = ($stats['total'] ?? 0) + 1;
+            $stats['total'] = $stats['total'] + 1;
 
             // 更新分类计数
             $stats['by_type'][$activity] = ($stats['by_type'][$activity] ?? 0) + 1;
@@ -437,20 +447,22 @@ class UserTracker
 
     /**
      * 清理过期的活动记录.
-     */
-    /**
-     * @param array<int, array<string, mixed>> $activities
      *
-     * @return array<int, array<string, mixed>>
+     * @param  list<array<string, mixed>> $activities
+     * @return list<array<string, mixed>>
      */
     private function cleanExpiredActivities(array $activities): array
     {
         $cutoffTime = time() - self::ACTIVITY_RETENTION;
 
-        return array_filter(
+        $result = array_filter(
             $activities,
-            fn ($activity) => ($activity['timestamp'] ?? 0) > $cutoffTime
+            function (array $activity) use ($cutoffTime): bool {
+                return isset($activity['timestamp']) && is_int($activity['timestamp']) && $activity['timestamp'] > $cutoffTime;
+            }
         );
+
+        return array_values($result); // 重新索引以确保 list 类型
     }
 
     /**
