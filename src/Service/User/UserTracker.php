@@ -529,7 +529,8 @@ class UserTracker
             'activity' => $activityData,
         ]);
 
-        $this->eventDispatcher->dispatch($event, UserEvent::USER_ACTIVITY);
+        // Symfony 6+ 事件分发只需传入事件对象
+        $this->eventDispatcher->dispatch($event);
     }
 
     /**

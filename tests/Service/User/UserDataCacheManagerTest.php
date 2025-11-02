@@ -22,9 +22,9 @@ final class UserDataCacheManagerTest extends AbstractIntegrationTestCase
 {
     private UserDataCacheManager $cacheManager;
 
-    private CacheItemPoolInterface|MockObject $cache;
+    private CacheItemPoolInterface&MockObject $cache;
 
-    private LoggerInterface|MockObject $logger;
+    private LoggerInterface&MockObject $logger;
 
     public function testGetFromMemoryCache(): void
     {

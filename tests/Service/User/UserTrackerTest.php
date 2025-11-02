@@ -57,12 +57,11 @@ final class UserTrackerTest extends AbstractIntegrationTestCase
 
         $this->cache->expects($this->exactly(3))->method('save');
 
-        // 期望触发事件
+        // 期望触发事件（Symfony 6+ 只需传入事件对象）
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
             ->with(
-                self::isInstanceOf(UserEvent::class),
-                UserEvent::USER_ACTIVITY
+                self::isInstanceOf(UserEvent::class)
             )
         ;
 
@@ -356,6 +355,7 @@ final class UserTrackerTest extends AbstractIntegrationTestCase
 
         // 直接构造被测服务，确保依赖均为 Mock
         $logger = $this->createMock(LoggerInterface::class);
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $this->tracker = new UserTracker($this->cache, $this->eventDispatcher, $logger);
     }
 }

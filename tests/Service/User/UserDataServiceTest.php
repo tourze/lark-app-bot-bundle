@@ -475,6 +475,7 @@ class UserDataServiceTest extends AbstractIntegrationTestCase
         $this->client = $this->createMock(LarkClientInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         // 直接使用依赖注入实例化被测服务，避免容器已初始化服务的替换限制
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $this->service = new UserDataService($this->client, $this->logger);
     }
 }

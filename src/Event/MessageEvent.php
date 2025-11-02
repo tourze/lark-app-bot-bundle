@@ -125,12 +125,9 @@ class MessageEvent extends LarkEvent
         ];
         $sender['sender_type'] = \is_string($sender['sender_type'] ?? null) ? $sender['sender_type'] : 'user';
         $sender['tenant_key'] = \is_string($sender['tenant_key'] ?? null) ? $sender['tenant_key'] : '';
-        \assert(\is_array($sender['sender_id']));
         \assert(\is_string($sender['sender_id']['union_id'] ?? ''));
         \assert(\is_string($sender['sender_id']['user_id'] ?? ''));
         \assert(\is_string($sender['sender_id']['open_id'] ?? ''));
-        \assert(\is_string($sender['sender_type'] ?? 'user'));
-        \assert(\is_string($sender['tenant_key'] ?? ''));
 
         /** @var array{sender_id: array{union_id: string, user_id: string, open_id: string}, sender_type: string, tenant_key: string} $sender */
         return $sender;

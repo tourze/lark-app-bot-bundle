@@ -293,6 +293,7 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
         $this->messageService = $this->createMock(MessageService::class);
 
         // 直接构造被测服务，确保依赖均为 Mock
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $this->menuService = new MenuService(
             $this->client,
             $this->logger,

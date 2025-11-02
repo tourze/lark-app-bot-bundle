@@ -56,7 +56,11 @@ class ExternalGroupManager
         $cacheItem = $this->cache->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {
-            return $cacheItem->get();
+            $cached = $cacheItem->get();
+            /** @var array<string, mixed>|null $cached */
+            if (is_array($cached)) {
+                return $cached;
+            }
         }
 
         try {
@@ -68,18 +72,22 @@ class ExternalGroupManager
 
             $content = $response->getContent();
             $data = json_decode($content, true);
-            $groupInfo = $data['data'] ?? null;
 
-            if (null !== $groupInfo) {
-                // 增强群组信息
-                $groupInfo['is_external'] = true;
-                $groupInfo['external_member_count'] = $this->countExternalMembers($chatId);
-                $groupInfo['security_settings'] = $this->getSecuritySettings($chatId);
-
-                $cacheItem->set($groupInfo);
-                $cacheItem->expiresAfter(3600);
-                $this->cache->save($cacheItem);
+            // 类型守卫：确保响应是有效的数组结构
+            if (!is_array($data) || !isset($data['data']) || !is_array($data['data'])) {
+                return null;
             }
+
+            $groupInfo = $data['data'];
+
+            // 增强群组信息
+            $groupInfo['is_external'] = true;
+            $groupInfo['external_member_count'] = $this->countExternalMembers($chatId);
+            $groupInfo['security_settings'] = $this->getSecuritySettings($chatId);
+
+            $cacheItem->set($groupInfo);
+            $cacheItem->expiresAfter(3600);
+            $this->cache->save($cacheItem);
 
             return $groupInfo;
         } catch (ApiException $e) {
@@ -105,7 +113,11 @@ class ExternalGroupManager
         $cacheItem = $this->cache->getItem($cacheKey);
 
         if ($cacheItem->isHit()) {
-            return $cacheItem->get();
+            $cached = $cacheItem->get();
+            /** @var array<int, array<string, mixed>> $cached */
+            if (is_array($cached)) {
+                return $cached;
+            }
         }
 
         try {
@@ -140,7 +152,13 @@ class ExternalGroupManager
     private function extractMembersFromResponse(string $content): array
     {
         $data = json_decode($content, true);
-        $items = $data['data']['items'] ?? [];
+
+        // 类型守卫：确保响应结构有效
+        if (!is_array($data) || !isset($data['data']) || !is_array($data['data']) || !isset($data['data']['items'])) {
+            return [];
+        }
+
+        $items = $data['data']['items'];
         if (!is_iterable($items)) {
             return [];
         }
@@ -176,7 +194,12 @@ class ExternalGroupManager
      */
     private function isExternalMember(array $member): bool
     {
-        return isset($member['member_id']) && $this->userIdentifier->isExternalUser($member['member_id']);
+        $memberId = $member['member_id'] ?? null;
+        if (!is_string($memberId)) {
+            return false;
+        }
+
+        return $this->userIdentifier->isExternalUser($memberId);
     }
 
     /**
@@ -228,8 +251,13 @@ class ExternalGroupManager
             // 目前仅更新缓存中的设置
             $groupInfo = $this->getExternalGroupInfo($chatId);
             if (null !== $groupInfo) {
+                $existingSettings = $groupInfo['security_settings'] ?? [];
+                if (!is_array($existingSettings)) {
+                    $existingSettings = [];
+                }
+
                 $groupInfo['security_settings'] = array_merge(
-                    $groupInfo['security_settings'] ?? [],
+                    $existingSettings,
                     $settings
                 );
 
@@ -275,20 +303,36 @@ class ExternalGroupManager
 
             $content = $response->getContent();
             $data = json_decode($content, true);
-            $chats = $data['data']['items'] ?? [];
-            if (!is_iterable($chats)) {
-                $chats = [];
+
+            // 类型守卫：确保响应结构有效
+            if (!is_array($data) || !isset($data['data']) || !is_array($data['data']) || !isset($data['data']['items'])) {
+                return [];
             }
+
+            $chats = $data['data']['items'];
+            if (!is_iterable($chats)) {
+                return [];
+            }
+
             $externalGroups = [];
 
             foreach ($chats as $chat) {
-                if (is_array($chat) && isset($chat['chat_id']) && $this->hasExternalMembers($chat['chat_id'])) {
+                if (!is_array($chat)) {
+                    continue;
+                }
+
+                $chatId = $chat['chat_id'] ?? null;
+                if (!is_string($chatId)) {
+                    continue;
+                }
+
+                if ($this->hasExternalMembers($chatId)) {
                     $externalGroups[] = [
-                        'chat_id' => $chat['chat_id'],
+                        'chat_id' => $chatId,
                         'name' => $chat['name'] ?? 'External Group',
                         'type' => $chat['chat_type'] ?? 'group',
                         'member_count' => $chat['member_count'] ?? 0,
-                        'external_member_count' => $this->countExternalMembers($chat['chat_id']),
+                        'external_member_count' => $this->countExternalMembers($chatId),
                     ];
                 }
             }
@@ -336,14 +380,30 @@ class ExternalGroupManager
 
             $content = $response->getContent();
             $data = json_decode($content, true);
-            $members = $data['data']['items'] ?? [];
-            if (!is_iterable($members)) {
-                $members = [];
+
+            // 类型守卫：确保响应结构有效
+            if (!is_array($data) || !isset($data['data']) || !is_array($data['data']) || !isset($data['data']['items'])) {
+                return 0;
             }
+
+            $members = $data['data']['items'];
+            if (!is_iterable($members)) {
+                return 0;
+            }
+
             $externalCount = 0;
 
             foreach ($members as $member) {
-                if (isset($member['member_id']) && $this->userIdentifier->isExternalUser($member['member_id'])) {
+                if (!is_array($member)) {
+                    continue;
+                }
+
+                $memberId = $member['member_id'] ?? null;
+                if (!is_string($memberId)) {
+                    continue;
+                }
+
+                if ($this->userIdentifier->isExternalUser($memberId)) {
                     ++$externalCount;
                 }
             }

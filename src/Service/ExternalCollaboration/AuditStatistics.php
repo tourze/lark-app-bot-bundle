@@ -52,11 +52,15 @@ final class AuditStatistics
      */
     private function accumulateCoreCounters(array $stats, array $log): array
     {
+        \assert(\is_int($stats['external_user_events']));
+        \assert(\is_int($stats['security_violations']));
+        \assert(\is_int($stats['permission_changes']));
+
         if (isset($log['is_external']) && true === $log['is_external']) {
             ++$stats['external_user_events'];
         }
 
-        $eventType = (string)($log['event_type'] ?? '');
+        $eventType = isset($log['event_type']) && \is_scalar($log['event_type']) ? (string) $log['event_type'] : '';
         if (AuditLogger::EVENT_SECURITY_VIOLATION === $eventType) {
             ++$stats['security_violations'];
         }
@@ -74,6 +78,9 @@ final class AuditStatistics
      */
     private function accumulateTypeAndLevel(array $stats, array $log): array
     {
+        \assert(\is_array($stats['events_by_type']));
+        \assert(\is_array($stats['events_by_level']));
+
         $eventType = isset($log['event_type']) && is_scalar($log['event_type']) ? (string) $log['event_type'] : 'unknown';
         $level = isset($log['level']) && is_scalar($log['level']) ? (string) $log['level'] : 'unknown';
 
@@ -83,6 +90,9 @@ final class AuditStatistics
         if (!isset($stats['events_by_level'][$level])) {
             $stats['events_by_level'][$level] = 0;
         }
+
+        \assert(\is_int($stats['events_by_type'][$eventType]));
+        \assert(\is_int($stats['events_by_level'][$level]));
 
         ++$stats['events_by_type'][$eventType];
         ++$stats['events_by_level'][$level];

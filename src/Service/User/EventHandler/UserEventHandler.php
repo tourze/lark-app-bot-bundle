@@ -79,10 +79,10 @@ class UserEventHandler
         ]);
 
         // 清除旧缓存
-        $this->cacheManager->invalidateUser(
-            $user['open_id'] ?? $user['user_id'] ?? '',
-            'open_id'
-        );
+        $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (is_string($userId) && '' !== $userId) {
+            $this->cacheManager->invalidateUser($userId, 'open_id');
+        }
 
         // 如果有关键字段变更，清除相关缓存
         if (isset($changes['department_ids']) || isset($changes['leader_user_id'])) {
@@ -90,15 +90,18 @@ class UserEventHandler
         }
 
         // 记录用户活动
-        $this->userTracker->trackActivity(
-            $user['open_id'] ?? $user['user_id'] ?? '',
-            'open_id',
-            'user_updated',
-            [
-                'changes' => array_keys($changes),
-                'updated_at' => time(),
-            ]
-        );
+        $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (is_string($userId) && '' !== $userId) {
+            $this->userTracker->trackActivity(
+                $userId,
+                'open_id',
+                'user_updated',
+                [
+                    'changes' => array_keys($changes),
+                    'updated_at' => time(),
+                ]
+            );
+        }
     }
 
     /**
@@ -124,15 +127,25 @@ class UserEventHandler
         $context = $event->getContext();
 
         $activityType = $context['activity_type'] ?? 'unknown';
+        if (!is_string($activityType)) {
+            $activityType = 'unknown';
+        }
+
         $activityData = $context['activity_data'] ?? [];
+        if (!is_array($activityData)) {
+            $activityData = [];
+        }
 
         // 记录活动
-        $this->userTracker->trackActivity(
-            $user['open_id'] ?? $user['user_id'] ?? '',
-            'open_id',
-            $activityType,
-            $activityData
-        );
+        $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (is_string($userId) && '' !== $userId) {
+            $this->userTracker->trackActivity(
+                $userId,
+                'open_id',
+                $activityType,
+                $activityData
+            );
+        }
 
         // 特殊活动处理
         switch ($activityType) {
@@ -160,6 +173,10 @@ class UserEventHandler
         $context = $event->getContext();
         $fullData = $context['full_data'] ?? [];
 
+        if (!is_array($fullData)) {
+            $fullData = [];
+        }
+
         $this->logger->debug('用户数据已加载', [
             'user_id' => $user['user_id'] ?? '',
             'data_keys' => array_keys($fullData),
@@ -178,6 +195,13 @@ class UserEventHandler
         $customData = $context['custom_data'] ?? [];
         $oldCustomData = $context['old_custom_data'] ?? [];
 
+        if (!is_array($customData)) {
+            $customData = [];
+        }
+        if (!is_array($oldCustomData)) {
+            $oldCustomData = [];
+        }
+
         $this->logger->info('用户自定义数据已更新', [
             'user_id' => $user['user_id'] ?? '',
             'updated_keys' => array_keys($customData),
@@ -185,10 +209,10 @@ class UserEventHandler
         ]);
 
         // 清除缓存以确保数据一致性
-        $this->cacheManager->invalidateUser(
-            $user['open_id'] ?? $user['user_id'] ?? '',
-            'open_id'
-        );
+        $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (is_string($userId) && '' !== $userId) {
+            $this->cacheManager->invalidateUser($userId, 'open_id');
+        }
     }
 
     /**
@@ -204,10 +228,10 @@ class UserEventHandler
         ]);
 
         // 确保所有缓存都被清除
-        $this->cacheManager->invalidateUser(
-            $user['open_id'] ?? $user['user_id'] ?? '',
-            'open_id'
-        );
+        $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (is_string($userId) && '' !== $userId) {
+            $this->cacheManager->invalidateUser($userId, 'open_id');
+        }
     }
 
     /**
@@ -287,8 +311,9 @@ class UserEventHandler
 
         $identifiers = [];
         foreach ($identifierFields as $field => $type) {
-            if (isset($user[$field]) && '' !== $user[$field]) {
-                $identifiers[] = ['id' => $user[$field], 'type' => $type];
+            $value = $user[$field] ?? null;
+            if (is_string($value) && '' !== $value) {
+                $identifiers[] = ['id' => $value, 'type' => $type];
             }
         }
 
@@ -321,6 +346,9 @@ class UserEventHandler
     private function trackUserDeletion(array $user, array $context): void
     {
         $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (!is_string($userId) || '' === $userId) {
+            return;
+        }
 
         $this->userTracker->trackActivity(
             $userId,
@@ -402,9 +430,9 @@ class UserEventHandler
         ]);
 
         // 清除用户缓存以确保权限生效
-        $this->cacheManager->invalidateUser(
-            $user['open_id'] ?? $user['user_id'] ?? '',
-            'open_id'
-        );
+        $userId = $user['open_id'] ?? $user['user_id'] ?? '';
+        if (is_string($userId) && '' !== $userId) {
+            $this->cacheManager->invalidateUser($userId, 'open_id');
+        }
     }
 }

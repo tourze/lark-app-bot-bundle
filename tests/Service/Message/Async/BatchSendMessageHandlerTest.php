@@ -223,6 +223,7 @@ final class BatchSendMessageHandlerTest extends AbstractIntegrationTestCase
     public function testHandlerWithoutPerformanceMonitor(): void
     {
         // 直接构造 Handler（没有性能监控器），避免替换已初始化的框架 logger 服务
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $handler = new BatchSendMessageHandler(
             $this->mockMessageService,
             $this->mockMessageBus,
@@ -254,6 +255,7 @@ final class BatchSendMessageHandlerTest extends AbstractIntegrationTestCase
         $this->mockPerformanceMonitor = $this->createMock(PerformanceMonitor::class);
 
         // 直接构造被测实例，确保测试完全控制依赖
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $this->handler = new BatchSendMessageHandler(
             $this->mockMessageService,
             $this->mockMessageBus,

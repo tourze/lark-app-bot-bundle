@@ -399,6 +399,7 @@ final class ConcurrentMessageServiceTest extends AbstractIntegrationTestCase
         $this->mockMessageBus = $this->createMock(MessageBusInterface::class);
         $this->mockLogger = $this->createMock(LoggerInterface::class);
 
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $instance = new ConcurrentMessageService(
             $this->mockMessageService,
             $this->mockMessageBus,

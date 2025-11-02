@@ -238,6 +238,7 @@ class ComplianceChecker
             if (!isset($result['violations'])) {
                 $result['violations'] = [];
             }
+            \assert(\is_array($result['violations']));
             $result['violations'][] = 'Personal data found without proper protection';
         }
 
@@ -264,6 +265,7 @@ class ComplianceChecker
             if (!isset($result['warnings'])) {
                 $result['warnings'] = [];
             }
+            \assert(\is_array($result['warnings']));
             $result['warnings'][] = 'Data collection may violate minimization principle';
         }
 
@@ -291,6 +293,7 @@ class ComplianceChecker
             if (!isset($result['violations'])) {
                 $result['violations'] = [];
             }
+            \assert(\is_array($result['violations']));
             $result['violations'][] = 'Data collection purpose not clearly defined';
         }
 
@@ -305,6 +308,7 @@ class ComplianceChecker
     private function isRuleEnabled(array $rules, string $ruleName): bool
     {
         $rulesConfig = $rules['rules'] ?? [];
+        \assert(\is_array($rulesConfig));
 
         return (bool) ($rulesConfig[$ruleName] ?? false);
     }
@@ -323,7 +327,9 @@ class ComplianceChecker
 
         // 检查受限国家
         $userCountry = $data['user_country'] ?? '';
+        \assert(\is_string($userCountry));
         $rulesConfig = $rules['rules'] ?? [];
+        \assert(\is_array($rulesConfig));
         $restrictedCountries = $rulesConfig['restricted_countries'] ?? [];
         if (!is_array($restrictedCountries)) {
             $restrictedCountries = [];
@@ -366,9 +372,13 @@ class ComplianceChecker
         $result = ['compliant' => true, 'violations' => [], 'warnings' => []];
 
         $retentionDays = $data['retention_days'] ?? 0;
+        \assert(\is_int($retentionDays));
         $rulesConfig = $rules['rules'] ?? [];
+        \assert(\is_array($rulesConfig));
         $minDays = $rulesConfig['min_retention_days'] ?? 30;
+        \assert(\is_int($minDays));
         $maxDays = $rulesConfig['max_retention_days'] ?? 365;
+        \assert(\is_int($maxDays));
 
         if ($retentionDays < $minDays) {
             $result['compliant'] = false;
@@ -459,6 +469,7 @@ class ComplianceChecker
 
         if (!((bool) ($data['user_consent'] ?? false))) {
             $result['compliant'] = false;
+            \assert(\is_array($result['violations']));
             $result['violations'][] = 'User consent not obtained';
         }
 
@@ -482,6 +493,7 @@ class ComplianceChecker
 
         if (!((bool) ($data['erasure_supported'] ?? false))) {
             $result['compliant'] = false;
+            \assert(\is_array($result['violations']));
             $result['violations'][] = 'Right to erasure not implemented';
         }
 
@@ -504,6 +516,7 @@ class ComplianceChecker
         }
 
         if (!((bool) ($data['export_supported'] ?? false))) {
+            \assert(\is_array($result['warnings']));
             $result['warnings'][] = 'Data portability not fully supported';
         }
 
@@ -569,6 +582,7 @@ class ComplianceChecker
     private function logComplianceCheck(string $checkType, array $data, array $result): void
     {
         $userId = $data['user_id'] ?? 'system';
+        \assert(\is_string($userId));
 
         $this->auditLogger->log(
             'compliance_check',

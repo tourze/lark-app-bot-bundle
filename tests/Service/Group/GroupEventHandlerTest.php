@@ -310,6 +310,7 @@ final class GroupEventHandlerTest extends AbstractIntegrationTestCase
 
 
         // 直接构造被测服务，避免容器内 EventDispatcher 被 Traceable 装饰导致的 addListener 类型约束问题
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $this->handler = new GroupEventHandler(
             $this->logger,
             $this->eventDispatcher,

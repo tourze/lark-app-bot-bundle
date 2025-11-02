@@ -260,8 +260,10 @@ class AccessControlList
         assert(is_string($rule['principal']), 'Principal must be a string');
         assert(is_array($rule['conditions']), 'Conditions must be an array');
 
+        /** @var array<string, mixed> $conditions */
+        $conditions = $rule['conditions'];
         return $this->matchPrincipal($rule['principal'], $userId, $context)
-            && $this->evaluateConditions($rule['conditions'], $context);
+            && $this->evaluateConditions($conditions, $context);
     }
 
     /**
@@ -327,7 +329,9 @@ class AccessControlList
 
         // 匹配所有外部用户
         if ('external:*' === $principal) {
-            return $context['is_external'] ?? false;
+            /** @var mixed $isExternal */
+            $isExternal = $context['is_external'] ?? false;
+            return (bool) $isExternal;
         }
 
         // 匹配所有内部用户
@@ -434,7 +438,11 @@ class AccessControlList
         $cacheItem = $this->cache->getItem('acl_rules');
 
         if ($cacheItem->isHit()) {
-            $this->rules = $cacheItem->get();
+            /** @var mixed $cachedRules */
+            $cachedRules = $cacheItem->get();
+            \assert(\is_array($cachedRules));
+            /** @var array<string, array<int, array<string, mixed>>> $cachedRules */
+            $this->rules = $cachedRules;
         }
     }
 

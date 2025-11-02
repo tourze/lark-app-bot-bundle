@@ -30,7 +30,7 @@ class MessageReactionEvent extends LarkEvent
         $reactionType = $this->data['reaction_type'] ?? [];
         \assert(\is_array($reactionType));
         if ([] === $reactionType) {
-            return [];
+            return ['emoji_type' => ''];
         }
         \assert(\is_string($reactionType['emoji_type'] ?? ''));
 

@@ -230,6 +230,7 @@ final class LarkLoggerTest extends AbstractIntegrationTestCase
     public function testDebugWhenDebugDisabled(): void
     {
         // 创建一个 debug 关闭的 logger 实例（不通过容器，避免已初始化服务替换限制）
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $logger = new LarkLogger($this->baseLogger, $this->requestStack, 'test_app_id', false);
 
         $this->baseLogger->expects($this->never())->method('log');
@@ -440,6 +441,7 @@ final class LarkLoggerTest extends AbstractIntegrationTestCase
         // 直接构造被测实例，避免容器中已初始化服务的替换限制
         $this->baseLogger = $this->createMock(LoggerInterface::class);
         $this->requestStack = new RequestStack();
+        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
         $this->larkLogger = new LarkLogger($this->baseLogger, $this->requestStack, 'test_app_id', true);
     }
 }
