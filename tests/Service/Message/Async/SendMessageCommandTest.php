@@ -231,17 +231,17 @@ final class SendMessageCommandTest extends TestCase
 
         $command1 = new SendMessageCommand('user1', 'text', 'msg', 'open_id', $emptyOptions);
         $this->assertSame($emptyOptions, $command1->getOptions());
-        $this->assertIsArray($command1);
+        $this->assertIsArray($command1->getOptions());
         $this->assertCount(0, $command1->getOptions());
 
         $command2 = new SendMessageCommand('user2', 'text', 'msg', 'open_id', $simpleOptions);
         $this->assertSame($simpleOptions, $command2->getOptions());
-        $this->assertIsArray($command2);
+        $this->assertIsArray($command2->getOptions());
         $this->assertCount(1, $command2->getOptions());
 
         $command3 = new SendMessageCommand('user3', 'text', 'msg', 'open_id', $complexOptions);
         $this->assertSame($complexOptions, $command3->getOptions());
-        $this->assertIsArray($command3);
+        $this->assertIsArray($command3->getOptions());
         $this->assertCount(4, $command3->getOptions());
     }
 

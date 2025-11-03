@@ -79,6 +79,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Personal data found without proper protection', $result['violations']);
     }
 
@@ -97,6 +98,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Data collection purpose not clearly defined', $result['violations']);
     }
 
@@ -118,6 +120,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertTrue($result['compliant']);
+        $this->assertIsArray($result['warnings']);
         $this->assertContains('Data collection may violate minimization principle', $result['warnings']);
     }
 
@@ -151,6 +154,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Access from restricted country: XX', $result['violations']);
     }
 
@@ -168,6 +172,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertTrue($result['compliant']);
+        $this->assertIsArray($result['warnings']);
         $this->assertContains('Sensitive technology involved: encryption', $result['warnings']);
         $this->assertContains('Sensitive technology involved: ai', $result['warnings']);
     }
@@ -201,6 +206,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Retention period too short: 15 days (minimum: 30)', $result['violations']);
     }
 
@@ -217,6 +223,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Retention period too long: 400 days (maximum: 365)', $result['violations']);
     }
 
@@ -227,6 +234,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
         $rulesProperty = $reflection->getProperty('complianceRules');
         $rulesProperty->setAccessible(true);
         $rules = $rulesProperty->getValue($this->complianceChecker);
+        $this->assertIsArray($rules);
         $rules[ComplianceChecker::CHECK_ACCESS_CONTROL] = [
             'enabled' => true,
             'rules' => []];
@@ -264,6 +272,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
         $rulesProperty = $reflection->getProperty('complianceRules');
         $rulesProperty->setAccessible(true);
         $rules = $rulesProperty->getValue($this->complianceChecker);
+        $this->assertIsArray($rules);
         $rules[ComplianceChecker::CHECK_ACCESS_CONTROL] = [
             'enabled' => true,
             'rules' => []];
@@ -281,6 +290,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('No access controls defined', $result['violations']);
     }
 
@@ -291,6 +301,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
         $rulesProperty = $reflection->getProperty('complianceRules');
         $rulesProperty->setAccessible(true);
         $rules = $rulesProperty->getValue($this->complianceChecker);
+        $this->assertIsArray($rules);
         $rules[ComplianceChecker::CHECK_ACCESS_CONTROL] = [
             'enabled' => true,
             'rules' => []];
@@ -314,6 +325,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertTrue($result['compliant']);
+        $this->assertIsArray($result['warnings']);
         $this->assertContains('Audit trail not enabled', $result['warnings']);
     }
 
@@ -348,6 +360,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('User consent not obtained', $result['violations']);
     }
 
@@ -365,6 +378,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Right to erasure not implemented', $result['violations']);
     }
 
@@ -382,6 +396,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertTrue($result['compliant']);
+        $this->assertIsArray($result['warnings']);
         $this->assertContains('Data portability not fully supported', $result['warnings']);
     }
 
@@ -395,6 +410,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertFalse($result['compliant']);
+        $this->assertIsArray($result['violations']);
         $this->assertContains('Unknown compliance check type', $result['violations']);
     }
 
@@ -405,6 +421,8 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
         $rulesProperty = $reflection->getProperty('complianceRules');
         $rulesProperty->setAccessible(true);
         $rules = $rulesProperty->getValue($this->complianceChecker);
+        $this->assertIsArray($rules);
+        $this->assertIsArray($rules[ComplianceChecker::CHECK_DATA_PRIVACY] ?? null);
         $rules[ComplianceChecker::CHECK_DATA_PRIVACY]['enabled'] = false;
         $rulesProperty->setValue($this->complianceChecker, $rules);
 
@@ -415,6 +433,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证
         $this->assertTrue($result['compliant']);
+        $this->assertIsArray($result['warnings']);
         $this->assertContains('Compliance check is disabled', $result['warnings']);
     }
 
@@ -511,6 +530,8 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
 
         // 验证详细信息
         $this->assertIsArray($report);
+        $this->assertArrayHasKey('details', $report);
+        $this->assertIsArray($report['details']);
         $this->assertArrayHasKey('check1', $report['details']);
         $this->assertArrayHasKey('check2', $report['details']);
         $this->assertFalse((bool) $report['details']['check1']['compliant']);
@@ -577,6 +598,7 @@ final class ComplianceCheckerTest extends AbstractIntegrationTestCase
                 $result['compliant'],
                 "Personal data field '{$field}' should trigger compliance violation"
             );
+            $this->assertIsArray($result['violations']);
             $this->assertContains('Personal data found without proper protection', $result['violations']);
         }
     }

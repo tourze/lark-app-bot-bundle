@@ -261,6 +261,8 @@ final class UserCacheServiceTest extends AbstractIntegrationTestCase
         $result = $this->service->batchGetUsers(['user1', 'user2'], 'open_id');
         $this->assertIsArray($result);
         $this->assertArrayHasKey('cached', $result);
+        $this->assertArrayHasKey('uncached', $result);
+        $this->assertIsArray($result['cached']);
         $this->assertCount(2, $result['cached']);
 
         // 清除所有缓存
@@ -271,6 +273,8 @@ final class UserCacheServiceTest extends AbstractIntegrationTestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('cached', $result);
         $this->assertArrayHasKey('uncached', $result);
+        $this->assertIsArray($result['cached']);
+        $this->assertIsArray($result['uncached']);
         $this->assertCount(0, $result['cached']);
         $this->assertCount(2, $result['uncached']);
     }

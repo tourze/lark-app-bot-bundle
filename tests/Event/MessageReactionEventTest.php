@@ -61,7 +61,7 @@ final class MessageReactionEventTest extends AbstractEventTestCase
     {
         $event = new MessageReactionEvent('test', []);
 
-        $this->assertSame([], $event->getReactionType());
+        $this->assertSame(['emoji_type' => ''], $event->getReactionType());
     }
 
     public function testGetOperatorId(): void

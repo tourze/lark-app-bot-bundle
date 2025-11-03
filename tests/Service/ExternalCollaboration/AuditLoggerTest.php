@@ -67,6 +67,7 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['user_id' => $userId]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertSame($eventType, $logs[0]['event_type']);
         $this->assertSame($userId, $logs[0]['user_id']);
         $this->assertTrue($logs[0]['is_external']);
@@ -135,7 +136,9 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['event_type' => AuditLogger::EVENT_EXTERNAL_USER_LOGIN]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertArrayHasKey('data', $logs[0]);
+        $this->assertIsArray($logs[0]['data']);
         $this->assertTrue($logs[0]['data']['success']);
         $this->assertSame('oauth', $logs[0]['data']['login_method']);
         $this->assertSame(AuditLogger::LEVEL_INFO, $logs[0]['level']);
@@ -170,7 +173,9 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['event_type' => AuditLogger::EVENT_EXTERNAL_USER_LOGIN]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertArrayHasKey('data', $logs[0]);
+        $this->assertIsArray($logs[0]['data']);
         $this->assertFalse($logs[0]['data']['success']);
         $this->assertSame('invalid_credentials', $logs[0]['data']['error']);
         $this->assertSame(AuditLogger::LEVEL_WARNING, $logs[0]['level']);
@@ -205,7 +210,9 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['event_type' => AuditLogger::EVENT_EXTERNAL_USER_ACCESS]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertArrayHasKey('data', $logs[0]);
+        $this->assertIsArray($logs[0]['data']);
         $this->assertSame($resource, $logs[0]['data']['resource']);
         $this->assertTrue($logs[0]['data']['allowed']);
         $this->assertSame(AuditLogger::LEVEL_INFO, $logs[0]['level']);
@@ -240,7 +247,9 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['event_type' => AuditLogger::EVENT_EXTERNAL_USER_DENIED]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertArrayHasKey('data', $logs[0]);
+        $this->assertIsArray($logs[0]['data']);
         $this->assertSame($resource, $logs[0]['data']['resource']);
         $this->assertFalse($logs[0]['data']['allowed']);
         $this->assertSame(AuditLogger::LEVEL_WARNING, $logs[0]['level']);
@@ -278,7 +287,9 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['event_type' => AuditLogger::EVENT_PERMISSION_CHANGED]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertArrayHasKey('data', $logs[0]);
+        $this->assertIsArray($logs[0]['data']);
         $this->assertSame($targetUserId, $logs[0]['data']['target_user_id']);
         $this->assertSame($changes, $logs[0]['data']['changes']);
         $this->assertSame(AuditLogger::LEVEL_WARNING, $logs[0]['level']);
@@ -316,6 +327,9 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['event_type' => AuditLogger::EVENT_SECURITY_VIOLATION]);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
+        $this->assertArrayHasKey('data', $logs[0]);
+        $this->assertIsArray($logs[0]['data']);
         $this->assertSame($violationType, $logs[0]['data']['violation_type']);
         $this->assertSame(10, $logs[0]['data']['attempts']);
         $this->assertSame(AuditLogger::LEVEL_CRITICAL, $logs[0]['level']);
@@ -413,6 +427,7 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $data = json_decode($export, true);
         $this->assertIsArray($data);
         $this->assertCount(1, $data);
+        $this->assertIsArray($data[0]);
         $this->assertSame('user1', $data[0]['user_id']);
     }
 
@@ -457,9 +472,11 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
         $logs = $this->auditLogger->query(['user_id' => 'user1']);
         $this->assertIsArray($logs);
         $this->assertCount(1, $logs);
+        $this->assertIsArray($logs[0]);
         $this->assertSame('192.168.1.1', $logs[0]['ip_address']);
         $this->assertSame('Test Browser', $logs[0]['user_agent']);
         $this->assertArrayHasKey('environment', $logs[0]);
+        $this->assertIsArray($logs[0]['environment']);
         $this->assertSame('POST', $logs[0]['environment']['request_method']);
         $this->assertSame('/test/path', $logs[0]['environment']['request_uri']);
     }

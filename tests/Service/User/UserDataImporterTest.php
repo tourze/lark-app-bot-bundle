@@ -54,6 +54,7 @@ class UserDataImporterTest extends AbstractIntegrationTestCase
         $this->assertSame($data['custom_data'], $result['custom_data']);
 
         $metadata = $result['metadata'];
+        $this->assertIsArray($metadata);
         $this->assertSame('1.0', $metadata['version']);
         $this->assertSame('imported', $metadata['sync_status']);
         $this->assertSame('import', $metadata['data_source']);
@@ -79,6 +80,7 @@ class UserDataImporterTest extends AbstractIntegrationTestCase
         $this->assertSame([], $result['custom_data']);
 
         $metadata = $result['metadata'];
+        $this->assertIsArray($metadata);
         $this->assertSame('1.0', $metadata['version']);
         $this->assertSame('imported', $metadata['sync_status']);
         $this->assertSame('import', $metadata['data_source']);
@@ -175,6 +177,7 @@ class UserDataImporterTest extends AbstractIntegrationTestCase
 
         $result = $this->importer->import($data);
 
+        $this->assertIsArray($result['metadata']);
         $this->assertSame($exportTime, $result['metadata']['import_time']);
     }
 
@@ -190,6 +193,7 @@ class UserDataImporterTest extends AbstractIntegrationTestCase
         $result = $this->importer->import($data);
         $afterTime = time();
 
+        $this->assertIsArray($result['metadata']);
         $this->assertGreaterThanOrEqual($beforeTime, $result['metadata']['import_time']);
         $this->assertLessThanOrEqual($afterTime, $result['metadata']['import_time']);
     }
@@ -277,6 +281,7 @@ class UserDataImporterTest extends AbstractIntegrationTestCase
         $this->assertArrayHasKey('metadata', $result);
         $this->assertSame('test_user', $data['user_id']);
         $this->assertSame('union_id', $data['user_id_type']);
+        $this->assertIsArray($result['metadata']);
         $this->assertSame(1609459200, $result['metadata']['import_time']);
     }
 

@@ -474,6 +474,7 @@ final class UserDataCacheManagerTest extends AbstractIntegrationTestCase
         $result = $this->cacheManager->get($userId, $userIdType);
 
         $this->assertIsArray($result);
+        $this->assertIsArray($result['metadata'] ?? null);
         $this->assertArrayHasKey('metadata', $result);
         $this->assertArrayHasKey('last_access', $result['metadata']);
         $this->assertGreaterThan(1000000, $result['metadata']['last_access']);

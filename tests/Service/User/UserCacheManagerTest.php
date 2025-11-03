@@ -142,6 +142,10 @@ final class UserCacheManagerTest extends AbstractIntegrationTestCase
         $result = $this->cacheManager->batchGetCachedUsers($userIds, $userIdType);
 
         $this->assertIsArray($result);
+        $this->assertArrayHasKey('cached', $result);
+        $this->assertArrayHasKey('uncached', $result);
+        $this->assertIsArray($result['cached']);
+        $this->assertIsArray($result['uncached']);
         $this->assertCount(2, $result['cached']);
         $this->assertCount(1, $result['uncached']);
         $this->assertSame(['name' => '用户1'], $result['cached']['ou_test1']);
