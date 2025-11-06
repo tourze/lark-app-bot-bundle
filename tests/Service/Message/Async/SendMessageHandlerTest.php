@@ -148,7 +148,8 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
                 'Rate limit encountered',
                 self::callback(function ($context) {
                     return 2 === $context['retry_count'];
-                }))
+                })
+            )
         ;
 
         $this->expectException(RecoverableMessageHandlingException::class);
@@ -206,7 +207,8 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
                 self::callback(function ($context) {
                     return 500 === $context['status_code']
                         && 1 === $context['retry_count'];
-                }))
+                })
+            )
         ;
 
         $this->expectException(RecoverableMessageHandlingException::class);
@@ -240,7 +242,8 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
                 'Client error sending async message',
                 self::callback(function ($context) {
                     return 400 === $context['status_code'];
-                }))
+                })
+            )
         ;
 
         $this->expectException(UnrecoverableMessageHandlingException::class);
@@ -271,7 +274,8 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
                     return isset($context['error'])
                         && isset($context['trace'])
                         && 'Something went wrong' === $context['error'];
-                }))
+                })
+            )
         ;
 
         $this->expectException(UnrecoverableMessageHandlingException::class);

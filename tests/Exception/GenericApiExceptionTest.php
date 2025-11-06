@@ -18,4 +18,3 @@ final class GenericApiExceptionTest extends AbstractExceptionTestCase
         $this->assertSame(1, $e->getCode());
     }
 }
-

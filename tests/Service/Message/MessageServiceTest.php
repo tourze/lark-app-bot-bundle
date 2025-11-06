@@ -60,7 +60,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                     'json' => [
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_TEXT,
-                        'content' => '{"text":"Hello, World!"}']])
+                        'content' => '{"text":"Hello, World!"}']]
+            )
             ->willReturn($response)
         ;
 
@@ -153,14 +154,16 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                 [
                     'json' => [
                         'msg_type' => MessageService::MSG_TYPE_TEXT,
-                        'content' => '{"text":"Reply message"}']])
+                        'content' => '{"text":"Reply message"}']]
+            )
             ->willReturn($response)
         ;
 
         $result = $this->messageService->reply(
             $messageId,
             MessageService::MSG_TYPE_TEXT,
-            ['text' => $text]);
+            ['text' => $text]
+        );
 
         $this->assertIsArray($result);
         $this->assertArrayHasKey('message_id', $result);
@@ -197,14 +200,16 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                 [
                     'json' => [
                         'msg_type' => MessageService::MSG_TYPE_TEXT,
-                        'content' => '{"text":"Edited message"}']])
+                        'content' => '{"text":"Edited message"}']]
+            )
             ->willReturn($response)
         ;
 
         $result = $this->messageService->edit(
             $messageId,
             MessageService::MSG_TYPE_TEXT,
-            ['text' => $newText]);
+            ['text' => $newText]
+        );
 
         // edit 方法返回 data 字段，不是整个响应
         $this->assertNotEmpty($result);
@@ -316,14 +321,16 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                     'json' => [
                         'receive_ids' => $receiveIds,
                         'msg_type' => MessageService::MSG_TYPE_TEXT,
-                        'content' => '{"text":"Batch message"}']])
+                        'content' => '{"text":"Batch message"}']]
+            )
             ->willReturn($response)
         ;
 
         $result = $this->messageService->sendBatch(
             $receiveIds,
             MessageService::MSG_TYPE_TEXT,
-            ['text' => $text]);
+            ['text' => $text]
+        );
 
         $this->assertIsArray($result);
         $this->assertArrayHasKey('message_id', $result);
@@ -335,9 +342,11 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('接收者ID列表不能为空');
 
-        $this->messageService->sendBatch([],
+        $this->messageService->sendBatch(
+            [],
             MessageService::MSG_TYPE_TEXT,
-            ['text' => 'test']);
+            ['text' => 'test']
+        );
     }
 
     public function testSendBatchMessageWithTooManyReceiversThrowsException(): void
@@ -350,7 +359,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
         $this->messageService->sendBatch(
             $receiveIds,
             MessageService::MSG_TYPE_TEXT,
-            ['text' => 'test']);
+            ['text' => 'test']
+        );
     }
 
     public function testGetSupportedMsgTypes(): void
@@ -401,7 +411,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                     'json' => [
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_INTERACTIVE,
-                        'content' => json_encode($card, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)]])
+                        'content' => json_encode($card, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)]]
+            )
             ->willReturn($response)
         ;
 
@@ -451,7 +462,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_INTERACTIVE,
                         'content' => json_encode($card, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
-                        'root_id' => $rootId]])
+                        'root_id' => $rootId]]
+            )
             ->willReturn($response)
         ;
 
@@ -493,7 +505,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                     'json' => [
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_FILE,
-                        'content' => '{"file_key":"file_v2_xxxxx"}']])
+                        'content' => '{"file_key":"file_v2_xxxxx"}']]
+            )
             ->willReturn($response)
         ;
 
@@ -535,7 +548,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                     'json' => [
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_IMAGE,
-                        'content' => '{"image_key":"img_v2_xxxxx"}']])
+                        'content' => '{"image_key":"img_v2_xxxxx"}']]
+            )
             ->willReturn($response)
         ;
 
@@ -584,7 +598,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                     'json' => [
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_RICH_TEXT,
-                        'content' => json_encode($post, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)]])
+                        'content' => json_encode($post, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)]]
+            )
             ->willReturn($response)
         ;
 
@@ -635,7 +650,8 @@ final class MessageServiceTest extends AbstractIntegrationTestCase
                         'receive_id' => $receiveId,
                         'msg_type' => MessageService::MSG_TYPE_RICH_TEXT,
                         'content' => json_encode($post, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
-                        'root_id' => $rootId]])
+                        'root_id' => $rootId]]
+            )
             ->willReturn($response)
         ;
 

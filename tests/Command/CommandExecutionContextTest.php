@@ -34,7 +34,7 @@ final class CommandExecutionContextTest extends AbstractIntegrationTestCase
     public function testReadonlyPropertiesDefinition(): void
     {
         $ref = new \ReflectionClass(CommandExecutionContext::class);
-        $props = array_map(fn($p) => $p->getName(), $ref->getProperties());
+        $props = array_map(fn ($p) => $p->getName(), $ref->getProperties());
 
         foreach (['identifier','type','isBatch','showDepartment','showGroups','format','fields'] as $expected) {
             $this->assertContains($expected, $props);

@@ -62,7 +62,8 @@ final class ApiExceptionTest extends AbstractExceptionTestCase
         $exception = GenericApiException::withDetails(
             'Validation failed',
             400,
-            ['field' => 'email', 'error' => 'invalid']);
+            ['field' => 'email', 'error' => 'invalid']
+        );
 
         $this->assertSame('Validation failed', $exception->getMessage());
         $this->assertSame(400, $exception->getCode());

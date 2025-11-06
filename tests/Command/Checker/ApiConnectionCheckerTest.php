@@ -163,7 +163,7 @@ final class ApiConnectionCheckerTest extends AbstractIntegrationTestCase
         $this->mockIo = $this->createMock(SymfonyStyle::class);
 
         // 创建一个测试专用的checker类，mock网络连接
-        $this->checker = new class($config, $this->mockLarkClient) extends ApiConnectionChecker {
+        $this->checker = new class ($config, $this->mockLarkClient) extends ApiConnectionChecker {
             protected function canConnectToHost(?string $host): bool
             {
                 // 在测试环境中网络连接总是失败，这符合测试期望

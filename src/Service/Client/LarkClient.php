@@ -98,7 +98,6 @@ class LarkClient implements LarkClientInterface
      * @throws TransportExceptionInterface
      * @throws ApiException
      *
-     * @phpstan-ignore-next-line method.childParameterType
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {

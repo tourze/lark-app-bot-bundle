@@ -13,7 +13,8 @@ final class CommandExecutionContext
         public readonly bool $showDepartment,
         public readonly bool $showGroups,
         public readonly string $format,
-        /** @var array<string> */ public readonly array $fields,
+        /** @var array<string> */
+        public readonly array $fields,
     ) {
     }
 }

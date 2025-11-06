@@ -264,4 +264,3 @@ final class BatchSendMessageHandlerTest extends AbstractIntegrationTestCase
         );
     }
 }
-

@@ -28,5 +28,7 @@ final class AuditStatisticsTest extends AbstractIntegrationTestCase
         $this->assertSame(1, $stats['permission_changes']);
     }
 
-    protected function onSetUp(): void {}
+    protected function onSetUp(): void
+    {
+    }
 }

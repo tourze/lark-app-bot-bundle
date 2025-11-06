@@ -232,7 +232,8 @@ class MenuBuilder
 
         // 添加统计信息
         $valueMapping = $this->config->getValueTextMapping();
-        $preview .= \sprintf("总计：%d 个一级菜单，%d 个可点击项\n",
+        $preview .= \sprintf(
+            "总计：%d 个一级菜单，%d 个可点击项\n",
             $this->config->getMenuCount(),
             \count($valueMapping)
         );
@@ -275,7 +276,8 @@ class MenuBuilder
             assert(isset($subMenu['text']) && \is_string($subMenu['text']), 'Sub menu text must be a string');
             assert(isset($subMenu['value']) && \is_string($subMenu['value']), 'Sub menu value must be a string');
 
-            $out .= \sprintf("   %d.%d %s [%s]\n",
+            $out .= \sprintf(
+                "   %d.%d %s [%s]\n",
                 $topIndex + 1,
                 $subIndex + 1,
                 $subMenu['text'],

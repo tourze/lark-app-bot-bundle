@@ -138,3 +138,9 @@ services:
         arguments:
           $metricsCollector: '@Tourze\LarkAppBotBundle\Service\Performance\MetricsCollector'
           $logger: '@logger'
+
+    MockSyncResultCollector:
+        class: Tourze\LarkAppBotBundle\Service\User\Sync\SyncResultCollector
+        arguments:
+          $logger: '@logger'
+        public: true

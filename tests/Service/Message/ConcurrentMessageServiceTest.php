@@ -54,7 +54,8 @@ final class ConcurrentMessageServiceTest extends AbstractIntegrationTestCase
                 'text',
                 ['text' => 'Hello World'],
                 'open_id',
-                ['option' => 'value'])
+                ['option' => 'value']
+            )
             ->willReturn($expectedResult)
         ;
 
@@ -102,7 +103,8 @@ final class ConcurrentMessageServiceTest extends AbstractIntegrationTestCase
                         && 'card' === $command->getMsgType()
                         && $command->getContent() === ['card' => 'content'];
                 }),
-                [])
+                []
+            )
             ->willReturnCallback(function ($command) {
                 return new Envelope($command);
             })
@@ -268,7 +270,8 @@ final class ConcurrentMessageServiceTest extends AbstractIntegrationTestCase
             'interactive',
             ['card' => 'batch content'],
             'user_id',
-            ['priority' => 'high']);
+            ['priority' => 'high']
+        );
 
         $this->assertStringStartsWith('batch_', $correlationId);
     }

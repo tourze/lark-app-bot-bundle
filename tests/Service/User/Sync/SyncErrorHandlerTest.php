@@ -257,7 +257,8 @@ final class SyncErrorHandlerTest extends AbstractIntegrationTestCase
                 '用户数据同步完成',
                 [
                     'user_id' => $userId,
-                    'user_name' => 'John Doe'])
+                    'user_name' => 'John Doe']
+            )
         ;
 
         $this->handler->logSyncSuccess($userId, $userData);
@@ -275,7 +276,8 @@ final class SyncErrorHandlerTest extends AbstractIntegrationTestCase
                 '用户数据同步完成',
                 [
                     'user_id' => $userId,
-                    'user_name' => ''])
+                    'user_name' => '']
+            )
         ;
 
         $this->handler->logSyncSuccess($userId, $userData);

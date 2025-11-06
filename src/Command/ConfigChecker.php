@@ -12,7 +12,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ConfigChecker
 {
     public function __construct(
-        /** @var array<string, mixed> */ private readonly array $config,
+        /** @var array<string, mixed> */
+        private readonly array $config,
         private readonly SymfonyStyle $io,
     ) {
     }

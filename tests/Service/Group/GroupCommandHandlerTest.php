@@ -378,6 +378,7 @@ final class GroupCommandHandlerTest extends AbstractIntegrationTestCase
             [
                 'event_id' => 'test-event-id',
                 'tenant_key' => 'test-tenant',
-                'app_id' => 'test-app-id']);
+                'app_id' => 'test-app-id']
+        );
     }
 }

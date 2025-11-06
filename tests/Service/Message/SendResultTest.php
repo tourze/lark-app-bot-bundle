@@ -106,7 +106,8 @@ final class SendResultTest extends TestCase
                 $scenario['success'],
                 $scenario['messageId'],
                 $scenario['error'],
-                $scenario['errorCode']);
+                $scenario['errorCode']
+            );
 
             $this->assertFalse($result->isSuccess());
             $this->assertNull($result->getMessageId());

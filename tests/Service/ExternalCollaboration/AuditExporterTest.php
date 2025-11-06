@@ -27,5 +27,7 @@ final class AuditExporterTest extends AbstractIntegrationTestCase
         $this->assertSame('', $csv);
     }
 
-    protected function onSetUp(): void {}
+    protected function onSetUp(): void
+    {
+    }
 }

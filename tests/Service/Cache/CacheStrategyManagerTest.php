@@ -298,7 +298,6 @@ final class CacheStrategyManagerTest extends AbstractIntegrationTestCase
         // 设置 PerformanceMonitor Mock 直接调用回调函数
         $this->performanceMonitor->method('monitorCacheOperation')
             ->willReturnCallback(function ($operation, $strategy, $callback) {
-                // @phpstan-ignore symplify.noDynamicName (Mock callback必须动态调用)
                 return $callback();
             })
         ;

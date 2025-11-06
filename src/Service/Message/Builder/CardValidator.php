@@ -98,7 +98,12 @@ class CardValidator
      */
     private function validateCardHeader(array $card): void
     {
-        $header = $card['header'] ?? [];
+        // 如果没有头部，则跳过验证（头部是可选的）
+        if (!isset($card['header'])) {
+            return;
+        }
+
+        $header = $card['header'];
         \assert(\is_array($header));
 
         /** @var array<string, mixed> $header */

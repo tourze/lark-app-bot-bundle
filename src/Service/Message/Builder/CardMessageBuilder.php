@@ -147,7 +147,6 @@ class CardMessageBuilder implements MessageBuilderInterface
      * @param string|null $template 模板颜色 (blue|turquoise|orange|red|grey|green|purple|indigo|wathet)
      * @param string|null $icon     图标
      *
-     * @phpstan-ignore-next-line symplify.noReturnSetterMethod (Builder pattern requires fluent interface)
      */
     public function setHeader(string $title, ?string $template = null, ?string $icon = null): self
     {

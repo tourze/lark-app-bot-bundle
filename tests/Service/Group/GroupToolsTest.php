@@ -43,8 +43,10 @@ final class GroupToolsTest extends TestCase
         // 期望调用两次（100 + 50）
         $this->groupService->expects($this->exactly(2))
             ->method('addMembers')
-            ->willReturnOnConsecutiveCalls(['invalid_id_list' => ['user50'], 'not_existed_id_list' => []],
-                ['invalid_id_list' => [], 'not_existed_id_list' => ['user120']])
+            ->willReturnOnConsecutiveCalls(
+                ['invalid_id_list' => ['user50'], 'not_existed_id_list' => []],
+                ['invalid_id_list' => [], 'not_existed_id_list' => ['user120']]
+            )
         ;
 
         $result = $this->groupTools->batchAddMembers($chatId, $memberIds, 100);

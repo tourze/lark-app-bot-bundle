@@ -54,5 +54,7 @@ final class ConfigurationValidatorTest extends AbstractIntegrationTestCase
         return new \Symfony\Component\Console\Style\SymfonyStyle($input, $output);
     }
 
-    protected function onSetUp(): void {}
+    protected function onSetUp(): void
+    {
+    }
 }

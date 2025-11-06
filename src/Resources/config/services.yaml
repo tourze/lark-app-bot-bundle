@@ -669,6 +669,12 @@ services:
   # 用户同步相关服务
   Tourze\LarkAppBotBundle\Service\User\Sync\SyncStrategyManager: ~
 
+  Tourze\LarkAppBotBundle\Service\User\Sync\SyncResultCollector:
+    arguments:
+      $logger: '@logger'
+    tags:
+      - { name: monolog.logger, channel: lark }
+
   Tourze\LarkAppBotBundle\Service\User\Sync\UserDataProcessor:
     arguments:
       $userService: '@Tourze\LarkAppBotBundle\Service\User\UserService'

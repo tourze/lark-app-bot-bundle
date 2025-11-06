@@ -98,4 +98,3 @@ final class AuditExporter
         return is_scalar($value) ? (string) $value : (is_object($value) ? (method_exists($value, '__toString') ? (string) $value : '[object]') : '[mixed]');
     }
 }
-

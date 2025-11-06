@@ -105,7 +105,8 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
                 AuditLogger::EVENT_EXTERNAL_USER_ACCESS,
                 $userId,
                 [],
-                $testCase['level']);
+                $testCase['level']
+            );
         }
     }
 
@@ -458,7 +459,8 @@ final class AuditLoggerTest extends AbstractIntegrationTestCase
             [],
             [],
             [],
-            ['HTTP_USER_AGENT' => 'Test Browser', 'REMOTE_ADDR' => '192.168.1.1']);
+            ['HTTP_USER_AGENT' => 'Test Browser', 'REMOTE_ADDR' => '192.168.1.1']
+        );
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         $this->userIdentifier->method('isExternalUser')->willReturn(false);

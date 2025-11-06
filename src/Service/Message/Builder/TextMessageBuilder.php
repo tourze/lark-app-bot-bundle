@@ -20,7 +20,6 @@ class TextMessageBuilder implements MessageBuilderInterface
      *
      * @param string $text 文本内容
      *
-     * @phpstan-ignore-next-line symplify.noReturnSetterMethod
      */
     public function setText(string $text): self
     {

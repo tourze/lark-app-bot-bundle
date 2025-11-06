@@ -95,7 +95,12 @@ final class WebhookControllerTest extends AbstractWebTestCase
     {
         $controller = $this->getController();
 
-        $request = Request::create('/lark/webhook', 'POST', [], [], [],
+        $request = Request::create(
+            '/lark/webhook',
+            'POST',
+            [],
+            [],
+            [],
             ['CONTENT_TYPE' => 'application/json'],
             'invalid-json'
         );
@@ -268,7 +273,12 @@ final class WebhookControllerTest extends AbstractWebTestCase
         $body = json_encode($requestData);
         $bodyString = false !== $body ? $body : '';
 
-        $request = Request::create('/lark/webhook', 'POST', [], [], [],
+        $request = Request::create(
+            '/lark/webhook',
+            'POST',
+            [],
+            [],
+            [],
             ['CONTENT_TYPE' => 'application/json'],
             $bodyString
         );

@@ -100,4 +100,3 @@ final class AuditStatistics
         return $stats;
     }
 }
-

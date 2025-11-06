@@ -191,7 +191,8 @@ final class UserDataProcessorTest extends AbstractIntegrationTestCase
                 '同步用户相关数据失败',
                 [
                     'user_id' => $userId,
-                    'error' => 'Department sync failed'])
+                    'error' => 'Department sync failed']
+            )
         ;
 
         $result = $this->processor->processUserData($userId, $userIdType, $userData);

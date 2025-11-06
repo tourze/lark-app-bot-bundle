@@ -61,7 +61,7 @@ final class StubLarkClient implements LarkClientInterface
 
     public function stream(iterable|ResponseInterface $responses, ?float $timeout = null): ResponseStreamInterface
     {
-        return new class implements ResponseStreamInterface {
+        return new class () implements ResponseStreamInterface {
             public function current(): ChunkInterface
             {
                 throw new \LogicException('Not implemented in mock');

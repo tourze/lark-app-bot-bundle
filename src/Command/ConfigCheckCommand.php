@@ -51,7 +51,8 @@ class ConfigCheckCommand extends Command
     public function __construct(
         private readonly TokenProviderInterface $tokenManager,
         private readonly LarkClientInterface $larkClient,
-        /** @var array<string, mixed> */ private readonly array $config,
+        /** @var array<string, mixed> */
+        private readonly array $config,
     ) {
         parent::__construct();
     }
