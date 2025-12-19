@@ -16,7 +16,7 @@ use Symfony\Component\Stopwatch\StopwatchEvent;
  */
 #[Autoconfigure(public: true)]
 #[WithMonologChannel(channel: 'lark_app_bot')]
-class PerformanceMonitor
+final class PerformanceMonitor
 {
     private const DEFAULT_SLOW_THRESHOLD = 1000; // 默认慢速阈值：1秒
 

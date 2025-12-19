@@ -16,7 +16,7 @@ use Tourze\LarkAppBotBundle\Service\Message\Handler\MessageHandlerRegistry;
  * 将消息事件转发给消息处理器
  */
 #[Autoconfigure(public: true)]
-class MessageEventSubscriber implements EventSubscriberInterface
+final class MessageEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MessageHandlerRegistry $handlerRegistry,

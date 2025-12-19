@@ -8,7 +8,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message\Async;
  * 异步发送消息命令
  * 用于通过消息队列异步发送飞书消息.
  */
-class SendMessageCommand
+final class SendMessageCommand
 {
     /**
      * @param array<string, mixed>|string $content

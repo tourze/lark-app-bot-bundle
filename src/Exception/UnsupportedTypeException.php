@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Exception;
  *
  * 当提供的类型参数不在支持的范围内时抛出
  */
-class UnsupportedTypeException extends \InvalidArgumentException
+final class UnsupportedTypeException extends \InvalidArgumentException
 {
     /**
      * @param string   $type       提供的类型

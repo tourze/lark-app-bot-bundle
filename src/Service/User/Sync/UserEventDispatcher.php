@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Service\User\UserEvent;
  * 负责用户相关事件的创建和分发
  */
 #[Autoconfigure(public: true)]
-class UserEventDispatcher
+final class UserEventDispatcher
 {
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,

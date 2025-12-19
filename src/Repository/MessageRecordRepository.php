@@ -18,7 +18,7 @@ use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
  * @method MessageRecord[]    findBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null, $limit = null, $offset = null)
  */
 #[AsRepository(entityClass: MessageRecord::class)]
-class MessageRecordRepository extends ServiceEntityRepository
+final class MessageRecordRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

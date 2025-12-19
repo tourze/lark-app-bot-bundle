@@ -9,7 +9,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
 /**
  * 卡片验证器.
  */
-class CardValidator
+final class CardValidator
 {
     /**
      * 验证卡片结构.

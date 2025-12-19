@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 用于收集和导出性能指标.
  */
 #[Autoconfigure(public: true)]
-class MetricsCollector
+final class MetricsCollector
 {
     private CollectorRegistry $registry;
 

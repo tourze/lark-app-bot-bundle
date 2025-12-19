@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  *
  * 负责用户ID验证和提取相关功能
  */
-class UserValidator
+final class UserValidator
 {
     private const VALID_USER_ID_TYPES = ['open_id', 'union_id', 'user_id', 'email', 'mobile'];
 

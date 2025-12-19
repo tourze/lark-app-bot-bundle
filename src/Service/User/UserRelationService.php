@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 负责处理用户组织关系（部门、上级、下属）
  */
 #[Autoconfigure(public: true)]
-class UserRelationService
+final class UserRelationService
 {
     public function __construct(
         private readonly LoggerInterface $logger,

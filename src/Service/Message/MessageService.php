@@ -16,7 +16,7 @@ use Tourze\LarkAppBotBundle\Service\Message\Builder\MessageBuilderInterface;
  * 负责处理飞书消息的发送、回复、编辑等操作.
  */
 #[Autoconfigure(public: true)]
-class MessageService implements MessageServiceInterface
+final class MessageService implements MessageServiceInterface
 {
     /**
      * 支持的消息类型.

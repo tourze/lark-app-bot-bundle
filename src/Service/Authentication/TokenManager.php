@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Exception\AuthenticationException;
  * 负责获取、缓存和刷新飞书应用的访问令牌
  */
 #[Autoconfigure(public: true)]
-class TokenManager implements TokenProviderInterface
+final class TokenManager implements TokenProviderInterface
 {
     private const TOKEN_URL = 'https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal';
     private const CACHE_KEY = 'lark_app_bot.access_token';

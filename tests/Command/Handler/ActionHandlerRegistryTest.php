@@ -6,10 +6,10 @@ namespace Tourze\LarkAppBotBundle\Tests\Command\Handler;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 use Tourze\LarkAppBotBundle\Command\Handler\ActionHandlerInterface;
 use Tourze\LarkAppBotBundle\Command\Handler\ActionHandlerRegistry;
 use Tourze\LarkAppBotBundle\Exception\UnsupportedTypeException;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
 /**
  * @internal

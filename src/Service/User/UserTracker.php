@@ -16,7 +16,7 @@ use Tourze\LarkAppBotBundle\Event\UserEvent;
  * 追踪用户的在线状态、活动记录和行为分析
  */
 #[Autoconfigure(public: true)]
-class UserTracker
+final class UserTracker
 {
     private const CACHE_PREFIX = 'lark_user_tracker_';
     private const ONLINE_TIMEOUT = 300; // 5分钟无活动视为离线
@@ -166,6 +166,7 @@ class UserTracker
             usort($allActivities, function (array $a, array $b): int {
                 $aTime = isset($a['timestamp']) && is_int($a['timestamp']) ? $a['timestamp'] : 0;
                 $bTime = isset($b['timestamp']) && is_int($b['timestamp']) ? $b['timestamp'] : 0;
+
                 return $bTime - $aTime;
             });
 

@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
  * 文本消息构建器
  * 支持构建简单的文本消息.
  */
-class TextMessageBuilder implements MessageBuilderInterface
+final class TextMessageBuilder implements MessageBuilderInterface
 {
     private string $text = '';
 
@@ -19,7 +19,6 @@ class TextMessageBuilder implements MessageBuilderInterface
      * 设置文本内容.
      *
      * @param string $text 文本内容
-     *
      */
     public function setText(string $text): self
     {

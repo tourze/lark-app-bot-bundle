@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
  * 富文本消息构建器
  * 支持构建富文本格式的消息，包含多种文本样式和元素.
  */
-class RichTextBuilder implements MessageBuilderInterface
+final class RichTextBuilder implements MessageBuilderInterface
 {
     /**
      * @var array<string, array<string, mixed>>

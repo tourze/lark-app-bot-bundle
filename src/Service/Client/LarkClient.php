@@ -27,7 +27,7 @@ use Tourze\LarkAppBotBundle\Service\Performance\PerformanceMonitor;
  * 封装HTTP请求，处理认证、签名、重试等逻辑
  */
 #[Autoconfigure(public: true)]
-class LarkClient implements LarkClientInterface
+final class LarkClient implements LarkClientInterface
 {
     use DecoratorTrait;
 
@@ -97,7 +97,6 @@ class LarkClient implements LarkClientInterface
      *
      * @throws TransportExceptionInterface
      * @throws ApiException
-     *
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {

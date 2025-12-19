@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Service\Group\GroupService;
 /**
  * 移除群成员的操作处理器.
  */
-class RemoveMembersActionHandler extends AbstractActionHandler
+final class RemoveMembersActionHandler extends AbstractActionHandler
 {
     public function __construct(
         private readonly GroupService $groupService,

@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 用于识别和验证外部用户身份
  */
 #[Autoconfigure(public: true)]
-class ExternalUserIdentifier
+final class ExternalUserIdentifier
 {
     /**
      * 外部用户标识前缀

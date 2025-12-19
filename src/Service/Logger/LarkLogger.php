@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * 为日志添加飞书特定的上下文信息
  */
 #[Autoconfigure(public: true)]
-class LarkLogger implements LoggerInterface
+final class LarkLogger implements LoggerInterface
 {
     /**
      * 日志前缀.

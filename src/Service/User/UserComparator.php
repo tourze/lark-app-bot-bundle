@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 负责用户信息比较和摘要生成
  */
 #[Autoconfigure(public: true)]
-class UserComparator
+final class UserComparator
 {
     public function __construct(
         private readonly UserStatusChecker $statusChecker,

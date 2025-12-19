@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message;
 /**
  * 消息发送结果.
  */
-class SendResult
+final class SendResult
 {
     public function __construct(
         private readonly bool $success,

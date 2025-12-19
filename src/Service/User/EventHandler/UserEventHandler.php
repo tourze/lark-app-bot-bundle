@@ -20,7 +20,7 @@ use Tourze\LarkAppBotBundle\Service\User\UserTracker;
  * - 缓存同步
  */
 #[Autoconfigure(public: true)]
-class UserEventHandler
+final class UserEventHandler
 {
     public function __construct(
         private readonly UserCacheManager $cacheManager,

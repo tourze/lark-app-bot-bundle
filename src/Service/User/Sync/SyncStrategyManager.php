@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 负责判断同步时机和策略
  */
 #[Autoconfigure(public: true)]
-class SyncStrategyManager
+final class SyncStrategyManager
 {
     private const SYNC_INTERVAL = 300; // 5分钟同步间隔
 

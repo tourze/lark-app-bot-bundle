@@ -9,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 /**
  * URL验证事件.
  */
-class UrlVerificationEvent extends Event
+final class UrlVerificationEvent extends Event
 {
     /**
      * @param array<string, mixed> $data

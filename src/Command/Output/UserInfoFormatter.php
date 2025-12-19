@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * 用户信息格式化器.
  */
-class UserInfoFormatter
+final class UserInfoFormatter
 {
     /**
      * 显示基础用户信息.

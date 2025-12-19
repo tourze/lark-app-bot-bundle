@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 负责用户数据的缓存存储、获取和清理
  */
 #[Autoconfigure(public: true)]
-class UserCacheService
+final class UserCacheService
 {
     private const CACHE_PREFIX = 'lark_user_';
     private const CACHE_TTL = 3600; // 1小时

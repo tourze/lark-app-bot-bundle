@@ -14,7 +14,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 提供用户信息获取、权限管理、批量查询等功能的主服务
  */
 #[Autoconfigure(public: true)]
-class UserService implements UserServiceInterface
+final class UserService implements UserServiceInterface
 {
     public function __construct(
         private readonly UserDataService $dataService,
@@ -156,6 +156,7 @@ class UserService implements UserServiceInterface
         foreach ($fetchedUsers as $userId => $user) {
             $result[$userId] = $this->dataService->filterFields($user, $fields);
         }
+
         return $result;
     }
 

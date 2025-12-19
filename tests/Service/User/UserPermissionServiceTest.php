@@ -21,9 +21,9 @@ final class UserPermissionServiceTest extends AbstractIntegrationTestCase
 {
     private UserPermissionService $service;
 
-    private UserDataService&MockObject $userDataService;
+    private MockObject $userDataService;
 
-    private UserCacheService&MockObject $cacheService;
+    private MockObject $cacheService;
 
     public function testHasPermissionForTenantManager(): void
     {

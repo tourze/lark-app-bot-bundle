@@ -44,7 +44,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface;
     - Webhook配置是否正确
     - 必要的权限是否已授予
     TXT)]
-class ConfigCheckCommand extends Command
+final class ConfigCheckCommand extends Command
 {
     public const NAME = 'lark:config:check';
 

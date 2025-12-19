@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface;
 /**
  * API测试辅助类.
  */
-class ApiTester
+final class ApiTester
 {
     /**
      * @param array<string, mixed> $config

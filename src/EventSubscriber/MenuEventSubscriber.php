@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Service\Menu\MenuService;
  * 负责监听和分发菜单点击事件.
  */
 #[Autoconfigure(public: true)]
-readonly class MenuEventSubscriber implements EventSubscriberInterface
+final readonly class MenuEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private MenuService $menuService,

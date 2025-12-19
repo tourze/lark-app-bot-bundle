@@ -22,11 +22,11 @@ final class UserRelationServiceTest extends AbstractIntegrationTestCase
 {
     private UserRelationService $service;
 
-    private UserDataService&MockObject $userDataService;
+    private MockObject $userDataService;
 
-    private UserCacheService&MockObject $cacheService;
+    private MockObject $cacheService;
 
-    private UserSearchService&MockObject $searchService;
+    private MockObject $searchService;
 
     public function testGetUserDepartments(): void
     {

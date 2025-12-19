@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Service\Message\Builder\RichTextBuilder;
  * 通知消息模板
  * 用于系统通知、提醒等场景.
  */
-class NotificationMessageTemplate extends AbstractMessageTemplate
+final class NotificationMessageTemplate extends AbstractMessageTemplate
 {
     public const LEVEL_INFO = 'info';
     public const LEVEL_SUCCESS = 'success';

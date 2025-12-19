@@ -20,7 +20,7 @@ use Tourze\LarkAppBotBundle\Service\Performance\PerformanceMonitor;
  */
 #[AsMessageHandler]
 #[Autoconfigure(public: true)]
-class SendMessageHandler
+final class SendMessageHandler
 {
     private const MAX_RETRY_COUNT = 3;
     private const MAX_MESSAGE_AGE = 300; // 5分钟

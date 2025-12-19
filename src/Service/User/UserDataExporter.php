@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 用户数据导出器.
  */
 #[Autoconfigure(public: true)]
-class UserDataExporter
+final class UserDataExporter
 {
     private const DATA_VERSION = '1.0';
 

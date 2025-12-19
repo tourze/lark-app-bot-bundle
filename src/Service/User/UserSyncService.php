@@ -19,7 +19,7 @@ use Tourze\LarkAppBotBundle\Service\User\Sync\UserEventDispatcher;
  * 负责协调各个组件完成用户数据的同步、更新和一致性维护
  */
 #[Autoconfigure(public: true)]
-class UserSyncService implements UserSyncServiceInterface
+final class UserSyncService implements UserSyncServiceInterface
 {
     public function __construct(
         private readonly UserServiceInterface $userService,

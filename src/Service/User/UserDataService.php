@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface;
  * 负责与飞书API交互，获取用户基础信息
  */
 #[Autoconfigure(public: true)]
-class UserDataService
+final class UserDataService
 {
     private const BATCH_SIZE = 50;
 

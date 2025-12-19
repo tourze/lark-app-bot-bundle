@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * 缓存配置检查器.
  */
-class CacheConfigChecker extends BaseChecker
+final class CacheConfigChecker extends BaseChecker
 {
     public function getName(): string
     {

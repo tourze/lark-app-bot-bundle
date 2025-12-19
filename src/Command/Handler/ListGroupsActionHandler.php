@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Service\Group\GroupService;
 /**
  * 列出所有群组的操作处理器.
  */
-class ListGroupsActionHandler extends AbstractActionHandler
+final class ListGroupsActionHandler extends AbstractActionHandler
 {
     public function __construct(
         private readonly GroupService $groupService,

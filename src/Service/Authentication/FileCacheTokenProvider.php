@@ -14,24 +14,33 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  *
  * 使用本地文件系统缓存访问令牌
  */
-class FileCacheTokenProvider implements TokenProviderInterface
+final class FileCacheTokenProvider implements TokenProviderInterface
 {
     private readonly TokenManager $tokenManager;
 
     public function __construct(
-        HttpClientInterface $httpClient,
+        ?HttpClientInterface $httpClient = null,
         ?LoggerInterface $logger = null,
+        ?TokenManager $tokenManager = null,
     ) {
-        $cacheDirectory = $_ENV['LARK_CACHE_DIR'] ?? sys_get_temp_dir() . '/lark_app_bot';
-        \assert(\is_string($cacheDirectory));
+        if (null !== $tokenManager) {
+            $this->tokenManager = $tokenManager;
+        } else {
+            if (null === $httpClient) {
+                throw new \InvalidArgumentException('HttpClient must be provided when TokenManager is not injected');
+            }
 
-        $cache = new FilesystemAdapter(
-            namespace: 'lark_app_bot',
-            defaultLifetime: 0,
-            directory: $cacheDirectory
-        );
+            $cacheDirectory = $_ENV['LARK_CACHE_DIR'] ?? sys_get_temp_dir() . '/lark_app_bot';
+            \assert(\is_string($cacheDirectory));
 
-        $this->tokenManager = new TokenManager($httpClient, $cache, $logger ?? new NullLogger());
+            $cache = new FilesystemAdapter(
+                namespace: 'lark_app_bot',
+                defaultLifetime: 0,
+                directory: $cacheDirectory
+            );
+
+            $this->tokenManager = new TokenManager($httpClient, $cache, $logger ?? new NullLogger());
+        }
     }
 
     public function getToken(): string

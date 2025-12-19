@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Exception;
  *
  * 当命令行参数或选项无效时抛出
  */
-class InvalidCommandUsageException extends \InvalidArgumentException
+final class InvalidCommandUsageException extends \InvalidArgumentException
 {
     /**
      * 创建无效参数值异常.

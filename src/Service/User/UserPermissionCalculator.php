@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Service\User;
  *
  * 负责用户权限解析和组织层级计算
  */
-class UserPermissionCalculator
+final class UserPermissionCalculator
 {
     /**
      * 解析用户权限.

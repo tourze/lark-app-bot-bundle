@@ -19,7 +19,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClient;
  * 管理外部用户的邀请流程
  */
 #[Autoconfigure(public: true)]
-class ExternalInvitationManager
+final class ExternalInvitationManager
 {
     /**
      * 邀请状态常量.
@@ -133,6 +133,7 @@ class ExternalInvitationManager
                 $this->logger->warning('Invalid invitation data structure', [
                     'invitation_id' => $invitationId,
                 ]);
+
                 return null;
             }
 
@@ -288,6 +289,7 @@ class ExternalInvitationManager
 
         if ($cacheItem->isHit()) {
             $invitations = $cacheItem->get();
+
             return is_array($invitations) ? $invitations : [];
         }
 

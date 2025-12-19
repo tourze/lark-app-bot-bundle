@@ -21,7 +21,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
  * 负责机器人菜单的配置、更新、事件处理等功能.
  */
 #[Autoconfigure(public: true)]
-class MenuService
+final class MenuService
 {
     /**
      * 菜单权限类型.

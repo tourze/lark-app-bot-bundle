@@ -44,7 +44,7 @@ use Tourze\LarkAppBotBundle\Exception\InvalidCommandUsageException;
       <comment>%command.full_name% members oc_abc123</comment>
       <comment>%command.full_name% members oc_abc123 --page=2</comment>
     TXT)]
-class GroupManageCommand extends Command
+final class GroupManageCommand extends Command
 {
     public const NAME = 'lark:group:manage';
 

@@ -13,7 +13,7 @@ use Tourze\LarkAppBotBundle\Event\MessageEvent;
  * 处理未被其他处理器处理的消息
  */
 #[Autoconfigure(public: true)]
-class DefaultMessageHandler extends AbstractMessageHandler
+final class DefaultMessageHandler extends AbstractMessageHandler
 {
     /**
      * 支持所有消息类型.

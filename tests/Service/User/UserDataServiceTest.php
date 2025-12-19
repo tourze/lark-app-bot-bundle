@@ -474,8 +474,12 @@ class UserDataServiceTest extends AbstractIntegrationTestCase
         // 创建 mock 对象
         $this->client = $this->createMock(LarkClientInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        // 直接使用依赖注入实例化被测服务，避免容器已初始化服务的替换限制
-        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
-        $this->service = new UserDataService($this->client, $this->logger);
+
+        // 将 Mock 服务注入到容器中
+        static::getContainer()->set(LarkClientInterface::class, $this->client);
+        static::getContainer()->set('logger', $this->logger);
+
+        // 从容器获取被测试的服务
+        $this->service = self::getService(UserDataService::class);
     }
 }

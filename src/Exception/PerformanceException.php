@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tourze\LarkAppBotBundle\Exception;
 
-class PerformanceException extends \RuntimeException
+final class PerformanceException extends \RuntimeException
 {
     public static function sendFailed(string $message = 'Send failed'): self
     {

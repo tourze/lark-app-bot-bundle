@@ -47,7 +47,7 @@ final class LarkExceptionTest extends AbstractExceptionTestCase
      */
     private function createTestException(string $message = '', int $code = 0, ?\Throwable $previous = null): LarkException
     {
-        return new class ($message, $code, $previous) extends LarkException {
+        return new class($message, $code, $previous) extends LarkException {
         };
     }
 }

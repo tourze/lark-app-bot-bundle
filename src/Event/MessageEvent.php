@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Event;
 /**
  * 消息事件.
  */
-class MessageEvent extends LarkEvent
+final class MessageEvent extends LarkEvent
 {
     /**
      * 获取消息ID.
@@ -118,7 +118,7 @@ class MessageEvent extends LarkEvent
     {
         $sender = $this->data['sender'] ?? [];
         \assert(\is_array($sender));
-        $sender['sender_id'] = \is_array(($sender['sender_id'] ?? null)) ? $sender['sender_id'] : [
+        $sender['sender_id'] = \is_array($sender['sender_id'] ?? null) ? $sender['sender_id'] : [
             'union_id' => '',
             'user_id' => '',
             'open_id' => '',

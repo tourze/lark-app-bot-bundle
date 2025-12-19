@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Service\User;
  *
  * 负责用户显示名称、头像URL等格式化功能
  */
-class UserFormatter
+final class UserFormatter
 {
     /**
      * 格式化用户显示名称.

@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Event;
 /**
  * 群组事件.
  */
-class GroupEvent extends LarkEvent
+final class GroupEvent extends LarkEvent
 {
     /**
      * 获取群组ID.

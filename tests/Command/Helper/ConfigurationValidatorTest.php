@@ -6,6 +6,9 @@ namespace Tourze\LarkAppBotBundle\Tests\Command\Helper;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Tourze\LarkAppBotBundle\Command\Helper\ConfigurationValidator;
 use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
@@ -47,11 +50,12 @@ final class ConfigurationValidatorTest extends AbstractIntegrationTestCase
         $this->assertTrue($validator->checkApiDomainConfig($io));
     }
 
-    private function createDummyIo(): \Symfony\Component\Console\Style\SymfonyStyle
+    private function createDummyIo(): SymfonyStyle
     {
-        $input = new \Symfony\Component\Console\Input\ArrayInput([]);
-        $output = new \Symfony\Component\Console\Output\BufferedOutput();
-        return new \Symfony\Component\Console\Style\SymfonyStyle($input, $output);
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+
+        return new SymfonyStyle($input, $output);
     }
 
     protected function onSetUp(): void

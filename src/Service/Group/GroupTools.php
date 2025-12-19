@@ -13,7 +13,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  *
  * 提供批量操作、模板管理、数据导出等功能
  */
-class GroupTools
+final class GroupTools
 {
     /**
      * 默认群组模板.

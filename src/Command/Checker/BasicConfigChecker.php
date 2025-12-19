@@ -10,7 +10,7 @@ use Tourze\LarkAppBotBundle\LarkAppBotBundle;
 /**
  * 基本配置检查器.
  */
-class BasicConfigChecker extends BaseChecker
+final class BasicConfigChecker extends BaseChecker
 {
     public function getName(): string
     {

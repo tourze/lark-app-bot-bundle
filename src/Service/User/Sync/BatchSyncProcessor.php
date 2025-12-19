@@ -14,7 +14,7 @@ use Tourze\LarkAppBotBundle\Service\User\UserServiceInterface;
  * 负责处理用户的批量同步逻辑
  */
 #[Autoconfigure(public: true)]
-class BatchSyncProcessor
+final class BatchSyncProcessor
 {
     private const SYNC_BATCH_SIZE = 50;
 

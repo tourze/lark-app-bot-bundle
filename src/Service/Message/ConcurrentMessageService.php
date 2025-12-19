@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Service\Message\Builder\MessageBuilderInterface;
  * 提供同步和异步消息发送的统一接口，支持批量发送优化.
  */
 #[Autoconfigure(public: true)]
-class ConcurrentMessageService
+final class ConcurrentMessageService
 {
     /**
      * 发送模式.

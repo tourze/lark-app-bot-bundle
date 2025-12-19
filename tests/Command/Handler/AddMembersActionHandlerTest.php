@@ -22,7 +22,6 @@ use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
  */
 #[CoversClass(AddMembersActionHandler::class)]
 #[RunTestsInSeparateProcesses]
-
 final class AddMembersActionHandlerTest extends AbstractIntegrationTestCase
 {
     protected function createInputDefinition(): InputDefinition
@@ -40,6 +39,7 @@ final class AddMembersActionHandlerTest extends AbstractIntegrationTestCase
             new InputOption('verbose', 'v', InputOption::VALUE_NONE),
         ]);
     }
+
     public function testGetActionName(): void
     {
         $handler = self::getService(AddMembersActionHandler::class);

@@ -22,9 +22,9 @@ final class PerformanceMonitorTest extends AbstractIntegrationTestCase
 {
     private PerformanceMonitor $monitor;
 
-    private MetricsCollector&MockObject $mockMetricsCollector;
+    private MockObject $mockMetricsCollector;
 
-    private LoggerInterface&MockObject $mockLogger;
+    private MockObject $mockLogger;
 
     public function testStartApiRequest(): void
     {

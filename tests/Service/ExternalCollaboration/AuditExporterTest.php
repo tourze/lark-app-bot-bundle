@@ -9,6 +9,9 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tourze\LarkAppBotBundle\Service\ExternalCollaboration\AuditExporter;
 use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
+/**
+ * @internal
+ */
 #[CoversClass(AuditExporter::class)]
 #[RunTestsInSeparateProcesses]
 final class AuditExporterTest extends AbstractIntegrationTestCase

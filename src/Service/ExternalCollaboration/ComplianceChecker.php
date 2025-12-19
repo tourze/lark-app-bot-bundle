@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 确保外部协作符合法规和公司政策
  */
 #[Autoconfigure(public: true)]
-class ComplianceChecker
+final class ComplianceChecker
 {
     /**
      * 合规检查类型.

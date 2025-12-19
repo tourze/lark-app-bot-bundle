@@ -39,6 +39,7 @@ final class RemoveMembersActionHandlerTest extends AbstractIntegrationTestCase
             new InputOption('verbose', 'v', InputOption::VALUE_NONE),
         ]);
     }
+
     public function testGetActionName(): void
     {
         $handler = self::getService(RemoveMembersActionHandler::class);

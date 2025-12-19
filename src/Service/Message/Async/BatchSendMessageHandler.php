@@ -18,7 +18,7 @@ use Tourze\LarkAppBotBundle\Service\Performance\PerformanceMonitor;
  */
 #[AsMessageHandler]
 #[Autoconfigure(public: true)]
-class BatchSendMessageHandler
+final class BatchSendMessageHandler
 {
     private const BATCH_SIZE = 50; // 飞书API批量发送限制
     private const MAX_MESSAGE_AGE = 600; // 10分钟

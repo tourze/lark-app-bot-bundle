@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Service\Group\GroupTools;
 /**
  * 列出群成员的操作处理器.
  */
-class ListMembersActionHandler extends AbstractActionHandler
+final class ListMembersActionHandler extends AbstractActionHandler
 {
     public function __construct(
         private readonly GroupTools $groupTools,

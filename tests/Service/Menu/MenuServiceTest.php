@@ -35,13 +35,13 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
 {
     private MenuService $menuService;
 
-    private MockObject&LarkClient $client;
+    private MockObject $client;
 
-    private MockObject&LoggerInterface $logger;
+    private MockObject $logger;
 
-    private MockObject&AdapterInterface $cache;
+    private MockObject $cache;
 
-    private MockObject&MessageService $messageService;
+    private MockObject $messageService;
 
     public function testUpdateMenu(): void
     {
@@ -162,20 +162,23 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
         $this->menuService->registerHandler('test_menu', $handler);
 
         /*
-         * 使用具体类 MenuEvent 而不是接口的原因：
-         * 1) MenuEvent 是本包中的事件类，封装了菜单点击事件的具体数据结构
-         * 2) 在单元测试中Mock MenuEvent 是合理的，因为我们需要控制事件的返回值来测试处理逻辑
-         * 3) 替代方案：可以创建EventInterface，但MenuEvent已经足够简单且职责明确，直接Mock更实用
+         * 使用真实 MenuEvent 对象而不是 Mock：
+         * 1) MenuEvent 是 final 类，无法被 Mock
+         * 2) 通过构造真实的 MenuEvent 对象并提供测试数据来验证处理逻辑
+         * 3) 这种方式更接近真实场景，测试可靠性更高
          */
-        $event = $this->createMock(MenuEvent::class);
-        $event->expects($this->once())
-            ->method('getEventKey')
-            ->willReturn('test_menu')
-        ;
-        $event->expects($this->once())
-            ->method('getOperatorOpenId')
-            ->willReturn('user123')
-        ;
+        $event = new MenuEvent(
+            MenuEvent::EVENT_TYPE,
+            [
+                'event_key' => 'test_menu',
+                'operator' => [
+                    'operator_id' => ['open_id' => 'user123'],
+                    'operator_type' => 'user',
+                ],
+                'timestamp' => time(),
+            ],
+            ['event_id' => 'test_event_id']
+        );
 
         $this->menuService->handleMenuEvent($event);
         $this->assertTrue($called);
@@ -184,20 +187,23 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
     public function testHandleMenuEventWithoutHandler(): void
     {
         /*
-         * 使用具体类 MenuEvent 而不是接口的原因：
-         * 1) MenuEvent 是菜单事件的具体实现，包含了菜单操作的所有必要信息
-         * 2) Mock 该类用于测试无处理器情况下的默认行为，这是合理的测试场景
-         * 3) 替代方案：虽然可以定义接口，但MenuEvent类已经很稳定，Mock具体类不会带来维护问题
+         * 使用真实 MenuEvent 对象而不是 Mock：
+         * 1) MenuEvent 是 final 类，无法被 Mock
+         * 2) 通过构造真实的 MenuEvent 对象来测试无处理器情况下的默认行为
+         * 3) 这种方式更接近真实场景，测试可靠性更高
          */
-        $event = $this->createMock(MenuEvent::class);
-        $event->expects($this->once())
-            ->method('getEventKey')
-            ->willReturn('unknown_menu')
-        ;
-        $event->expects($this->once())
-            ->method('getOperatorOpenId')
-            ->willReturn('user123')
-        ;
+        $event = new MenuEvent(
+            MenuEvent::EVENT_TYPE,
+            [
+                'event_key' => 'unknown_menu',
+                'operator' => [
+                    'operator_id' => ['open_id' => 'user123'],
+                    'operator_type' => 'user',
+                ],
+                'timestamp' => time(),
+            ],
+            ['event_id' => 'test_event_id']
+        );
 
         $this->messageService->expects($this->once())
             ->method('sendText')
@@ -221,20 +227,23 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
         );
 
         /*
-         * 使用具体类 MenuEvent 而不是接口的原因：
-         * 1) MenuEvent 承载菜单权限验证所需的用户信息，Mock该类可以控制权限测试数据
-         * 2) 在权限验证测试中Mock MenuEvent是必要的，以便模拟不同用户的操作场景
-         * 3) 替代方案：定义权限接口是可能的，但MenuEvent已经封装了所有权限相关数据，直接Mock更直接
+         * 使用真实 MenuEvent 对象而不是 Mock：
+         * 1) MenuEvent 是 final 类，无法被 Mock
+         * 2) 通过构造真实的 MenuEvent 对象来模拟权限被拒绝的用户操作场景
+         * 3) 这种方式更接近真实场景，测试可靠性更高
          */
-        $event = $this->createMock(MenuEvent::class);
-        $event->expects($this->once())
-            ->method('getEventKey')
-            ->willReturn('restricted_menu')
-        ;
-        $event->expects($this->once())
-            ->method('getOperatorOpenId')
-            ->willReturn('denied_user')
-        ;
+        $event = new MenuEvent(
+            MenuEvent::EVENT_TYPE,
+            [
+                'event_key' => 'restricted_menu',
+                'operator' => [
+                    'operator_id' => ['open_id' => 'denied_user'],
+                    'operator_type' => 'user',
+                ],
+                'timestamp' => time(),
+            ],
+            ['event_id' => 'test_event_id']
+        );
 
         $this->messageService->expects($this->once())
             ->method('sendText')
@@ -257,20 +266,23 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
         $this->menuService->registerHandler('error_menu', $handler);
 
         /*
-         * 使用具体类 MenuEvent 而不是接口的原因：
-         * 1) MenuEvent 是异常处理测试的载体，需要Mock来模拟触发异常的事件数据
-         * 2) 在异常处理测试中Mock MenuEvent可以确保测试的可控性和可重复性
-         * 3) 替代方案：可以使用真实的MenuEvent对象，但Mock提供了更好的测试隔离性
+         * 使用真实 MenuEvent 对象而不是 Mock：
+         * 1) MenuEvent 是 final 类，无法被 Mock
+         * 2) 通过构造真实的 MenuEvent 对象来模拟触发异常的事件数据
+         * 3) 这种方式更接近真实场景，测试可靠性更高
          */
-        $event = $this->createMock(MenuEvent::class);
-        $event->expects($this->once())
-            ->method('getEventKey')
-            ->willReturn('error_menu')
-        ;
-        $event->expects($this->once())
-            ->method('getOperatorOpenId')
-            ->willReturn('user123')
-        ;
+        $event = new MenuEvent(
+            MenuEvent::EVENT_TYPE,
+            [
+                'event_key' => 'error_menu',
+                'operator' => [
+                    'operator_id' => ['open_id' => 'user123'],
+                    'operator_type' => 'user',
+                ],
+                'timestamp' => time(),
+            ],
+            ['event_id' => 'test_event_id']
+        );
 
         $this->messageService->expects($this->once())
             ->method('sendText')
@@ -292,13 +304,13 @@ final class MenuServiceTest extends AbstractIntegrationTestCase
         $this->cache = $this->createMock(AdapterInterface::class);
         $this->messageService = $this->createMock(MessageService::class);
 
-        // 直接构造被测服务，确保依赖均为 Mock
-        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
-        $this->menuService = new MenuService(
-            $this->client,
-            $this->logger,
-            $this->cache,
-            $this->messageService,
-        );
+        // 将 Mock 服务注入到容器中
+        self::getContainer()->set(LarkClient::class, $this->client);
+        self::getContainer()->set('logger', $this->logger);
+        self::getContainer()->set('lark_app_bot.cache', $this->cache);
+        self::getContainer()->set(MessageService::class, $this->messageService);
+
+        // 从容器获取被测试的服务
+        $this->menuService = self::getService(MenuService::class);
     }
 }

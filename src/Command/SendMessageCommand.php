@@ -43,7 +43,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
       <comment>%command.full_name% open_123456 "欢迎加入" --template=welcome</comment>
     TXT)]
 #[Autoconfigure(public: true)]
-class SendMessageCommand extends Command
+final class SendMessageCommand extends Command
 {
     public const NAME = 'lark:message:send';
 

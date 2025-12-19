@@ -24,6 +24,7 @@ final class MenuConfigTest extends AbstractIntegrationTestCase
         $config = self::getService(MenuConfig::class);
         $this->assertIsArray($config->toArray());
     }
+
     public function testAddTopLevelMenu(): void
     {
         $config = self::getService(MenuConfig::class);

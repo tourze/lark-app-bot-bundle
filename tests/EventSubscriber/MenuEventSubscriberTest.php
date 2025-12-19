@@ -23,7 +23,7 @@ final class MenuEventSubscriberTest extends AbstractEventSubscriberTestCase
 {
     private MenuEventSubscriber $listener;
 
-    private MenuService&MockObject $menuService;
+    private MockObject $menuService;
 
     public function testGetSubscribedEvents(): void
     {
@@ -37,25 +37,23 @@ final class MenuEventSubscriberTest extends AbstractEventSubscriberTestCase
     public function testOnMenuEvent(): void
     {
         /*
-         * 使用具体类 MenuEvent 创建 Mock 对象的原因：
-         * 1. MenuEvent 是飞书菜单事件的数据载体，包含菜单键、操作者、上下文等信息
-         * 2. 该类封装了用户点击菜单项后的所有相关数据
-         * 3. 测试需要验证监听器是否正确处理菜单事件并调用相应的服务
-         * 4. Mock 该类可以灵活设置不同的菜单键和操作者，测试多种场景
+         * 使用真实 MenuEvent 对象而不是 Mock：
+         * 1) MenuEvent 是 final 类，无法被 Mock
+         * 2) 通过构造真实的 MenuEvent 对象来验证监听器处理逻辑
+         * 3) 这种方式更接近真实场景，测试可靠性更高
          */
-        $event = $this->createMock(MenuEvent::class);
-        $event->expects($this->once())
-            ->method('getEventKey')
-            ->willReturn('test_menu')
-        ;
-        $event->expects($this->once())
-            ->method('getOperatorOpenId')
-            ->willReturn('user123')
-        ;
-        $event->expects($this->once())
-            ->method('getEventId')
-            ->willReturn('event123')
-        ;
+        $event = new MenuEvent(
+            MenuEvent::EVENT_TYPE,
+            [
+                'event_key' => 'test_menu',
+                'operator' => [
+                    'operator_id' => ['open_id' => 'user123'],
+                    'operator_type' => 'user',
+                ],
+                'timestamp' => time(),
+            ],
+            ['event_id' => 'event123']
+        );
 
         // Logger会执行真实的日志记录，我们主要测试业务逻辑
 
@@ -70,25 +68,23 @@ final class MenuEventSubscriberTest extends AbstractEventSubscriberTestCase
     public function testOnMenuEventWithException(): void
     {
         /*
-         * 使用具体类 MenuEvent 创建 Mock 对象的原因：
-         * 1. 测试异常处理场景需要模拟完整的菜单事件数据
-         * 2. MenuEvent 提供了 getEventKey()、getOperatorOpenId()、getEventId() 等多个方法
-         * 3. 异常处理时需要记录详细的事件信息用于调试
-         * 4. Mock 该类可以精确控制每个方法的调用次数和返回值
+         * 使用真实 MenuEvent 对象而不是 Mock：
+         * 1) MenuEvent 是 final 类，无法被 Mock
+         * 2) 通过构造真实的 MenuEvent 对象来测试异常处理场景
+         * 3) 这种方式更接近真实场景，测试可靠性更高
          */
-        $event = $this->createMock(MenuEvent::class);
-        $event->expects($this->exactly(2))
-            ->method('getEventKey')
-            ->willReturn('error_menu')
-        ;
-        $event->expects($this->once())
-            ->method('getOperatorOpenId')
-            ->willReturn('user123')
-        ;
-        $event->expects($this->once())
-            ->method('getEventId')
-            ->willReturn('event123')
-        ;
+        $event = new MenuEvent(
+            MenuEvent::EVENT_TYPE,
+            [
+                'event_key' => 'error_menu',
+                'operator' => [
+                    'operator_id' => ['open_id' => 'user123'],
+                    'operator_type' => 'user',
+                ],
+                'timestamp' => time(),
+            ],
+            ['event_id' => 'event123']
+        );
 
         $exception = new \Exception('Test error');
 

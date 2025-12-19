@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Exception\GenericApiException;
  * 负责同步过程中的错误处理和重试逻辑
  */
 #[Autoconfigure(public: true)]
-class SyncErrorHandler
+final class SyncErrorHandler
 {
     public function __construct(
         private readonly LoggerInterface $logger,

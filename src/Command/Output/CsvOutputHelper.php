@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * CSV输出辅助类.
  */
-class CsvOutputHelper
+final class CsvOutputHelper
 {
     /**
      * 输出CSV格式.

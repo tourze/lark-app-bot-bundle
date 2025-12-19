@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  */
 #[Autoconfigure(public: true)]
 #[WithMonologChannel(channel: 'lark_app_bot')]
-class SyncResultCollector
+final class SyncResultCollector
 {
     private const SYNC_BATCH_SIZE = 100;
 

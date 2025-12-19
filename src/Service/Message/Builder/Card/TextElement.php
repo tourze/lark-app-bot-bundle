@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message\Builder\Card;
 /**
  * 文本元素.
  */
-class TextElement extends CardElement
+final class TextElement extends CardElement
 {
     /**
      * 文本内容.

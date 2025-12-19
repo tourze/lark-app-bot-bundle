@@ -18,7 +18,7 @@ use Tourze\LarkAppBotBundle\Exception\InvalidCacheStrategyException;
  * 提供内存、本地文件和分布式缓存的多级缓存机制.
  */
 #[Autoconfigure(public: true)]
-class MultiLevelCache implements CacheItemPoolInterface
+final class MultiLevelCache implements CacheItemPoolInterface
 {
     private ChainAdapter $chainAdapter;
 

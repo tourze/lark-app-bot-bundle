@@ -159,6 +159,7 @@ final class CardMessageBuilderIntegrationTest extends AbstractIntegrationTestCas
         $b->validate();
         $this->assertTrue($b->isValid());
     }
+
     public function testSendCardWithBuilder(): void
     {
         $builder = self::getService(CardMessageBuilder::class);

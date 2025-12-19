@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Service\User;
  *
  * 负责用户状态检查和判断
  */
-class UserStatusChecker
+final class UserStatusChecker
 {
     /**
      * 检查用户状态.

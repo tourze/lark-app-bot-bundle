@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface;
 /**
  * API连接检查器.
  */
-class ApiConnectionChecker extends BaseChecker
+final class ApiConnectionChecker extends BaseChecker
 {
     public function __construct(
         array $config,

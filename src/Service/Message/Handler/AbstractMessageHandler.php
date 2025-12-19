@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tourze\LarkAppBotBundle\Service\Message\Handler;
 
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Tourze\LarkAppBotBundle\Event\MessageEvent;
 use Tourze\LarkAppBotBundle\Service\Message\MessageService;
@@ -11,6 +12,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
 /**
  * 消息处理器抽象类.
  */
+#[WithMonologChannel(channel: 'lark_app_bot')]
 abstract class AbstractMessageHandler implements MessageHandlerInterface
 {
     public function __construct(

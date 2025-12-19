@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Service\User;
  *
  * 负责对敏感用户信息进行脱敏处理
  */
-class UserDataMasker
+final class UserDataMasker
 {
     /**
      * 格式化用户联系方式.

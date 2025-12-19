@@ -18,7 +18,7 @@ use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
  * @method UserSync[]    findBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null, $limit = null, $offset = null)
  */
 #[AsRepository(entityClass: UserSync::class)]
-class UserSyncRepository extends ServiceEntityRepository
+final class UserSyncRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

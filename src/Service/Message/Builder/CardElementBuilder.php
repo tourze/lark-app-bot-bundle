@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message\Builder;
 /**
  * 卡片元素构建器辅助类.
  */
-class CardElementBuilder
+final class CardElementBuilder
 {
     /**
      * 构建文本元素.

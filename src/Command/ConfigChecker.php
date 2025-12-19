@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * 配置检查辅助类.
  */
-class ConfigChecker
+final class ConfigChecker
 {
     public function __construct(
         /** @var array<string, mixed> */

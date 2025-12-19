@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  *
  * 此类作为向后兼容的 Facade，内部委托给专用的类
  */
-class UserTools
+final class UserTools
 {
     private static ?UserValidator $validator = null;
 

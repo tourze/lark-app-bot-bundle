@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * 批量结果格式化器.
  */
-class BatchResultFormatter
+final class BatchResultFormatter
 {
     /**
      * 输出批量结果.

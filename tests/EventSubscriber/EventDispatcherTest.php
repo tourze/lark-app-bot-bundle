@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Tourze\LarkAppBotBundle\Tests\EventSubscriber;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Tourze\LarkAppBotBundle\Event\GenericEvent;
 use Tourze\LarkAppBotBundle\Event\MessageEvent;
 use Tourze\LarkAppBotBundle\EventSubscriber\EventDispatcher;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
 /**
  * 事件调度器测试.
@@ -18,19 +19,18 @@ use Tourze\LarkAppBotBundle\EventSubscriber\EventDispatcher;
  * @internal
  */
 #[CoversClass(EventDispatcher::class)]
-final class EventDispatcherTest extends TestCase
+#[RunTestsInSeparateProcesses]
+final class EventDispatcherTest extends AbstractIntegrationTestCase
 {
     private EventDispatcher $dispatcher;
 
-    private EventDispatcherInterface $symfonyEventDispatcher;
+    private LoggerInterface $logger;
 
-    protected function setUp(): void
+    protected function onSetUp(): void
     {
-        $this->symfonyEventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $mockLogger = $this->createMock(LoggerInterface::class);
-
-        // 直接创建EventDispatcher实例
-        $this->dispatcher = new EventDispatcher($this->symfonyEventDispatcher, $mockLogger);
+        // 使用真实的Symfony EventDispatcher服务
+        $this->dispatcher = self::getService(EventDispatcher::class);
+        $this->logger = self::getService(LoggerInterface::class);
     }
 
     public function testDispatchKnownEvent(): void
@@ -42,16 +42,17 @@ final class EventDispatcherTest extends TestCase
             'chat_id' => 'test-chat-id'];
         $context = ['event_id' => 'test-event-id'];
 
-        $this->symfonyEventDispatcher->expects($this->once())
-            ->method('dispatch')
-            ->willReturnCallback(function ($event) {
-                $this->assertInstanceOf(MessageEvent::class, $event);
+        // 添加临时监听器来验证事件类型
+        $dispatchedEvent = null;
+        $listener = function ($event) use (&$dispatchedEvent) {
+            $dispatchedEvent = $event;
+        };
 
-                return $event;
-            })
-        ;
+        $this->dispatcher->addListener('im.message.receive_v1', $listener);
 
         $this->dispatcher->dispatch($eventType, $eventData, $context);
+
+        $this->assertInstanceOf(MessageEvent::class, $dispatchedEvent);
     }
 
     public function testDispatchUnknownEvent(): void
@@ -60,16 +61,17 @@ final class EventDispatcherTest extends TestCase
         $eventData = ['data' => 'test'];
         $context = [];
 
-        $this->symfonyEventDispatcher->expects($this->once())
-            ->method('dispatch')
-            ->willReturnCallback(function ($event) {
-                $this->assertInstanceOf(GenericEvent::class, $event);
+        // 添加临时监听器来验证事件类型
+        $dispatchedEvent = null;
+        $listener = function ($event) use (&$dispatchedEvent) {
+            $dispatchedEvent = $event;
+        };
 
-                return $event;
-            })
-        ;
+        $this->dispatcher->addListener('unknown.event.type', $listener);
 
         $this->dispatcher->dispatch($eventType, $eventData, $context);
+
+        $this->assertInstanceOf(GenericEvent::class, $dispatchedEvent);
     }
 
     public function testAddListener(): void
@@ -77,11 +79,6 @@ final class EventDispatcherTest extends TestCase
         $eventType = 'test.event';
         $listener = function (): void {};
         $priority = 10;
-
-        $this->symfonyEventDispatcher->expects($this->once())
-            ->method('addListener')
-            ->with($eventType, $listener, $priority)
-        ;
 
         $this->dispatcher->addListener($eventType, $listener, $priority);
         $listeners = $this->dispatcher->getListeners($eventType);
@@ -94,14 +91,6 @@ final class EventDispatcherTest extends TestCase
         $eventType = 'test.event';
         $listener1 = function (): void {};
         $listener2 = function (): void {};
-
-        $this->symfonyEventDispatcher->expects($this->exactly(2))
-            ->method('addListener')
-        ;
-        $this->symfonyEventDispatcher->expects($this->once())
-            ->method('removeListener')
-            ->with($eventType, $listener1)
-        ;
 
         $this->dispatcher->addListener($eventType, $listener1);
         $this->dispatcher->addListener($eventType, $listener2);
@@ -119,10 +108,6 @@ final class EventDispatcherTest extends TestCase
         $listener = function (): void {};
 
         $this->assertFalse($this->dispatcher->hasListeners($eventType));
-
-        $this->symfonyEventDispatcher->expects($this->once())
-            ->method('addListener')
-        ;
 
         $this->dispatcher->addListener($eventType, $listener);
 

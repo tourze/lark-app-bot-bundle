@@ -18,7 +18,7 @@ use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
  * @method GroupInfo[]    findBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null, $limit = null, $offset = null)
  */
 #[AsRepository(entityClass: GroupInfo::class)]
-class GroupInfoRepository extends ServiceEntityRepository
+final class GroupInfoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -6,11 +6,10 @@ namespace Tourze\LarkAppBotBundle\Tests\Service\Message\Handler;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Psr\Log\LoggerInterface;
 use Tourze\LarkAppBotBundle\Event\MessageEvent;
 use Tourze\LarkAppBotBundle\Service\Message\Handler\DefaultMessageHandler;
-use Tourze\LarkAppBotBundle\Tests\TestDouble\InMemoryLogger;
-use Tourze\LarkAppBotBundle\Tests\TestDouble\SpyMessageService;
-use Tourze\LarkAppBotBundle\Tests\TestDouble\ThrowingMessageService;
+use Tourze\LarkAppBotBundle\Service\Message\MessageServiceInterface;
 use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
 /**
@@ -21,10 +20,6 @@ use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 final class DefaultMessageHandlerTest extends AbstractIntegrationTestCase
 {
     private DefaultMessageHandler $handler;
-
-    private SpyMessageService $stubMessageService;
-
-    private InMemoryLogger $stubLogger;
 
     public function testSupportsAllMessages(): void
     {
@@ -56,13 +51,31 @@ final class DefaultMessageHandlerTest extends AbstractIntegrationTestCase
             'chat_type' => 'p2p',
         ]);
 
+        // 创建MessageService mock
+        $stubMessageService = $this->createMock(MessageServiceInterface::class);
+        $stubMessageService->expects($this->once())
+            ->method('sendText')
+            ->withAnyParameters()
+            ->willReturn([])
+        ;
+
+        // 创建Logger mock
+        $stubLogger = $this->createMock(LoggerInterface::class);
+        $stubLogger->expects($this->atLeastOnce())
+            ->method('info')
+        ;
+
+        // 通过反射设置依赖
+        $reflection = new \ReflectionClass($this->handler);
+        $messageServiceProperty = $reflection->getProperty('messageService');
+        $messageServiceProperty->setAccessible(true);
+        $messageServiceProperty->setValue($this->handler, $stubMessageService);
+
+        $loggerProperty = $reflection->getProperty('logger');
+        $loggerProperty->setAccessible(true);
+        $loggerProperty->setValue($this->handler, $stubLogger);
+
         $this->handler->handle($stubEvent);
-
-        // 验证记录了正确的日志
-        $this->assertContains('[default] 收到消息', $this->stubLogger->getLoggedMessages());
-
-        // 验证调用了发送消息
-        $this->assertContains('sendText', $this->stubMessageService->getCalledMethods());
     }
 
     public function testHandleGroupMessageWithMention(): void
@@ -77,13 +90,31 @@ final class DefaultMessageHandlerTest extends AbstractIntegrationTestCase
             'mentions' => [['user_id' => 'bot_id']],
         ]);
 
+        // 创建MessageService mock
+        $stubMessageService = $this->createMock(MessageServiceInterface::class);
+        $stubMessageService->expects($this->once())
+            ->method('sendText')
+            ->withAnyParameters()
+            ->willReturn([])
+        ;
+
+        // 创建Logger mock
+        $stubLogger = $this->createMock(LoggerInterface::class);
+        $stubLogger->expects($this->atLeastOnce())
+            ->method('info')
+        ;
+
+        // 通过反射设置依赖
+        $reflection = new \ReflectionClass($this->handler);
+        $messageServiceProperty = $reflection->getProperty('messageService');
+        $messageServiceProperty->setAccessible(true);
+        $messageServiceProperty->setValue($this->handler, $stubMessageService);
+
+        $loggerProperty = $reflection->getProperty('logger');
+        $loggerProperty->setAccessible(true);
+        $loggerProperty->setValue($this->handler, $stubLogger);
+
         $this->handler->handle($stubEvent);
-
-        // 验证记录了正确的日志
-        $this->assertContains('[default] 收到消息', $this->stubLogger->getLoggedMessages());
-
-        // 验证调用了发送消息
-        $this->assertContains('sendText', $this->stubMessageService->getCalledMethods());
     }
 
     public function testHandleGroupMessageWithoutMention(): void
@@ -97,22 +128,33 @@ final class DefaultMessageHandlerTest extends AbstractIntegrationTestCase
             'chat_type' => 'group',
         ]);
 
-        $initialCallCount = \count($this->stubMessageService->getCalledMethods());
+        // 创建MessageService mock，不应该调用sendText
+        $stubMessageService = $this->createMock(MessageServiceInterface::class);
+        $stubMessageService->expects($this->never())
+            ->method('sendText')
+        ;
+
+        // 创建Logger mock
+        $stubLogger = $this->createMock(LoggerInterface::class);
+        $stubLogger->expects($this->atLeastOnce())
+            ->method('info')
+        ;
+
+        // 通过反射设置依赖
+        $reflection = new \ReflectionClass($this->handler);
+        $messageServiceProperty = $reflection->getProperty('messageService');
+        $messageServiceProperty->setAccessible(true);
+        $messageServiceProperty->setValue($this->handler, $stubMessageService);
+
+        $loggerProperty = $reflection->getProperty('logger');
+        $loggerProperty->setAccessible(true);
+        $loggerProperty->setValue($this->handler, $stubLogger);
 
         $this->handler->handle($stubEvent);
-
-        // 验证记录了正确的日志
-        $this->assertContains('[default] 收到消息', $this->stubLogger->getLoggedMessages());
-
-        // 群消息但没有@机器人，不应该回复
-        $this->assertIsArray($this);
-        $this->assertCount($initialCallCount, $this->stubMessageService->getCalledMethods());
     }
 
     public function testHandleMessageWithSendError(): void
     {
-        $throwingMessageService = new ThrowingMessageService();
-
         $stubEvent = $this->createMessageEvent([
             'message_id' => 'msg_error',
             'chat_id' => 'chat_error',
@@ -122,45 +164,37 @@ final class DefaultMessageHandlerTest extends AbstractIntegrationTestCase
             'chat_type' => 'p2p',
         ]);
 
-        // 通过反射替换MessageService
+        // 创建会抛出异常的MessageService mock
+        $throwingMessageService = $this->createMock(MessageServiceInterface::class);
+        $throwingMessageService->method('sendText')->willThrowException(new \Exception('Send failed'));
+
+        // 创建Logger mock，期望记录错误日志
+        $stubLogger = $this->createMock(LoggerInterface::class);
+        $stubLogger->expects($this->atLeastOnce())
+            ->method('error')
+            ->withAnyParameters()
+        ;
+
+        // 通过反射设置依赖
         $reflection = new \ReflectionClass($this->handler);
         $messageServiceProperty = $reflection->getProperty('messageService');
         $messageServiceProperty->setAccessible(true);
         $messageServiceProperty->setValue($this->handler, $throwingMessageService);
 
+        $loggerProperty = $reflection->getProperty('logger');
+        $loggerProperty->setAccessible(true);
+        $loggerProperty->setValue($this->handler, $stubLogger);
+
         // 即使发送失败，handle方法也不应该抛出异常
         $this->handler->handle($stubEvent);
-
-        // 验证记录了错误日志
-        $loggedMessages = $this->stubLogger->getLoggedMessages();
-        $this->assertNotEmpty($loggedMessages);
-    }
-
-    protected function createStubServices(): void
-    {
-        $this->stubMessageService = new SpyMessageService();
-        $this->stubLogger = new InMemoryLogger();
     }
 
     protected function onSetUp(): void
     {
-        $this->createStubServices();
-
         // 从容器获取 DefaultMessageHandler 服务
         $handler = self::getContainer()->get(DefaultMessageHandler::class);
         $this->assertInstanceOf(DefaultMessageHandler::class, $handler);
         $this->handler = $handler;
-
-        // 通过反射替换依赖为 Stub 版本
-        $reflection = new \ReflectionClass($this->handler);
-
-        $messageServiceProperty = $reflection->getProperty('messageService');
-        $messageServiceProperty->setAccessible(true);
-        $messageServiceProperty->setValue($this->handler, $this->stubMessageService);
-
-        $loggerProperty = $reflection->getProperty('logger');
-        $loggerProperty->setAccessible(true);
-        $loggerProperty->setValue($this->handler, $this->stubLogger);
     }
 
     /**

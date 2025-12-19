@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 负责检测用户数据的变更和差异
  */
 #[Autoconfigure(public: true)]
-class UserChangeDetector
+final class UserChangeDetector
 {
     /**
      * 关键字段列表.

@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Exception\ConfigurationException;
  * 负责管理和获取消息模板
  */
 #[Autoconfigure(public: true)]
-class TemplateManager
+final class TemplateManager
 {
     /**
      * @var array<string, MessageTemplateInterface>

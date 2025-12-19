@@ -114,7 +114,8 @@ final class MenuBuilderTest extends AbstractIntegrationTestCase
     public function testToYamlAndFromYaml(): void
     {
         $builder = MenuBuilder::create()
-            ->addMenu('M1')->withSubMenu('S1', 'v1')->addMenu('M2', 'v2');
+            ->addMenu('M1')->withSubMenu('S1', 'v1')->addMenu('M2', 'v2')
+        ;
         $tmp = sys_get_temp_dir() . '/menu_' . uniqid() . '.yaml';
         $this->assertTrue($builder->toYaml($tmp));
         $this->assertFileExists($tmp);

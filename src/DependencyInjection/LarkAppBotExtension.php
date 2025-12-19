@@ -9,7 +9,7 @@ use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 /**
  * 飞书应用机器人Bundle扩展.
  */
-class LarkAppBotExtension extends AutoExtension
+final class LarkAppBotExtension extends AutoExtension
 {
     public function getAlias(): string
     {

@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 菜单构建工具
  * 提供便捷的菜单创建和管理功能.
  */
-class MenuBuilder
+final class MenuBuilder
 {
     private MenuConfig $config;
 

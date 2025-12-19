@@ -26,19 +26,19 @@ final class UserSyncServiceRefactoredTest extends AbstractIntegrationTestCase
 {
     private UserSyncServiceRefactored $service;
 
-    private UserServiceInterface&MockObject $userService;
+    private MockObject $userService;
 
-    private SyncStrategyManager&MockObject $strategyManager;
+    private MockObject $strategyManager;
 
-    private UserDataProcessor&MockObject $dataProcessor;
+    private MockObject $dataProcessor;
 
-    private SyncResultCollector&MockObject $resultCollector;
+    private MockObject $resultCollector;
 
-    private UserEventDispatcher&MockObject $eventDispatcher;
+    private MockObject $eventDispatcher;
 
-    private SyncErrorHandler&MockObject $errorHandler;
+    private MockObject $errorHandler;
 
-    private LoggerInterface&MockObject $logger;
+    private MockObject $logger;
 
     public function testSyncUser(): void
     {

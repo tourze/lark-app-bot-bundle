@@ -14,7 +14,7 @@ use Tourze\LarkAppBotBundle\Event\MessageEvent;
  * 管理和调度消息处理器
  */
 #[Autoconfigure(public: true)]
-class MessageHandlerRegistry
+final class MessageHandlerRegistry
 {
     /**
      * @var MessageHandlerInterface[]

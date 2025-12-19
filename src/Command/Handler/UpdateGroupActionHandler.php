@@ -13,7 +13,7 @@ use Tourze\LarkAppBotBundle\Service\Group\GroupService;
 /**
  * 更新群组的操作处理器.
  */
-class UpdateGroupActionHandler extends AbstractActionHandler
+final class UpdateGroupActionHandler extends AbstractActionHandler
 {
     public function __construct(
         private readonly GroupService $groupService,

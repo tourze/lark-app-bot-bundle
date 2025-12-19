@@ -27,9 +27,9 @@ final class GroupCommandHandlerTest extends AbstractIntegrationTestCase
 {
     private GroupCommandHandler $handler;
 
-    private GroupService&MockObject $groupService;
+    private MockObject $groupService;
 
-    private MessageService&MockObject $messageService;
+    private MockObject $messageService;
 
     public function testSupportsGroupTextCommand(): void
     {

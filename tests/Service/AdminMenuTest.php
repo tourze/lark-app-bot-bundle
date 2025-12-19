@@ -11,7 +11,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tourze\EasyAdminMenuBundle\Service\LinkGeneratorInterface;
 use Tourze\LarkAppBotBundle\Service\AdminMenu;
-use Tourze\LarkAppBotBundle\Tests\TestDouble\StubLinkGenerator;
 use Tourze\PHPUnitSymfonyWebTest\AbstractEasyAdminMenuTestCase;
 
 /**
@@ -112,9 +111,43 @@ final class AdminMenuTest extends AbstractEasyAdminMenuTestCase
 
     protected function onSetUp(): void
     {
-        $this->linkGenerator = new StubLinkGenerator();
+        // 使用真实的 LinkGenerator 服务，而不是 Stub
+        // 创建一个真实的 LinkGenerator 实现
+        $this->linkGenerator = new class implements LinkGeneratorInterface {
+            public function getCurdListPage(string $entityClass): string
+            {
+                return match ($entityClass) {
+                    'Tourze\LarkAppBotBundle\Entity\MessageRecord' => '/admin/messagerecord',
+                    'Tourze\LarkAppBotBundle\Entity\UserSync' => '/admin/usersync',
+                    'Tourze\LarkAppBotBundle\Entity\GroupInfo' => '/admin/groupinfo',
+                    'Tourze\LarkAppBotBundle\Entity\BotConfiguration' => '/admin/botconfiguration',
+                    'Tourze\LarkAppBotBundle\Entity\ApiLog' => '/admin/apilog',
+                    default => '/admin/unknown',
+                };
+            }
 
+            public function extractEntityFqcn(string $url): ?string
+            {
+                return match (true) {
+                    str_contains($url, '/admin/messagerecord') => 'Tourze\LarkAppBotBundle\Entity\MessageRecord',
+                    str_contains($url, '/admin/usersync') => 'Tourze\LarkAppBotBundle\Entity\UserSync',
+                    str_contains($url, '/admin/groupinfo') => 'Tourze\LarkAppBotBundle\Entity\GroupInfo',
+                    str_contains($url, '/admin/botconfiguration') => 'Tourze\LarkAppBotBundle\Entity\BotConfiguration',
+                    str_contains($url, '/admin/apilog') => 'Tourze\LarkAppBotBundle\Entity\ApiLog',
+                    default => null,
+                };
+            }
+
+            public function setDashboard(string $dashboardControllerFqcn): void
+            {
+                // 简单实现，不做任何操作
+            }
+        };
+
+        // 注册到容器
         self::getContainer()->set(LinkGeneratorInterface::class, $this->linkGenerator);
+
+        // 获取真实的 AdminMenu 服务
         $this->adminMenu = self::getService(AdminMenu::class);
     }
 

@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\Cache;
 /**
  * 缓存统计信息管理器.
  */
-class CacheStats
+final class CacheStats
 {
     /**
      * @var array<string, int>

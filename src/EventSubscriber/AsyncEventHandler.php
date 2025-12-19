@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Event\AsyncEventMessage;
  * 使用Symfony Messenger组件处理异步事件
  */
 #[Autoconfigure(public: true)]
-class AsyncEventHandler
+final class AsyncEventHandler
 {
     public function __construct(
         private readonly LoggerInterface $logger,

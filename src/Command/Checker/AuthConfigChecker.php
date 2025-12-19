@@ -10,7 +10,7 @@ use Tourze\LarkAppBotBundle\Service\Authentication\TokenProviderInterface;
 /**
  * 认证配置检查器.
  */
-class AuthConfigChecker extends BaseChecker
+final class AuthConfigChecker extends BaseChecker
 {
     public function __construct(
         array $config,

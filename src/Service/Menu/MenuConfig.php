@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 用于定义和验证机器人菜单结构.
  */
 #[Autoconfigure(public: true)]
-class MenuConfig
+final class MenuConfig
 {
     /**
      * 菜单类型常量.

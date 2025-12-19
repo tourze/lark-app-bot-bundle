@@ -292,6 +292,8 @@ final class MessageRecordRepositoryTest extends AbstractRepositoryTestCase
         $messageRecord->setSenderId('user_' . uniqid());
         $messageRecord->setMessageType('text');
         $messageRecord->setContent(['text' => 'Test message']);
+        // 显式设置创建时间以确保时间范围查询正常工作
+        $messageRecord->setCreateTime(new \DateTimeImmutable('now'));
 
         return $messageRecord;
     }

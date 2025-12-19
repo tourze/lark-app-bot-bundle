@@ -21,7 +21,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 处理API响应，解析错误码，抛出相应异常
  */
 #[Autoconfigure(public: true)]
-class ResponseHandler
+final class ResponseHandler
 {
     /**
      * 飞书API错误码映射.

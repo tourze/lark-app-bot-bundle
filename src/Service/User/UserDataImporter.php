@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 用户数据导入器.
  */
 #[Autoconfigure(public: true)]
-class UserDataImporter
+final class UserDataImporter
 {
     private const DATA_VERSION = '1.0';
 

@@ -18,7 +18,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClientInterface;
  * 负责处理用户搜索相关功能
  */
 #[Autoconfigure(public: true)]
-class UserSearchService
+final class UserSearchService
 {
     public function __construct(
         private readonly LarkClientInterface $client,

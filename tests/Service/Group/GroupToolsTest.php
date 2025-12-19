@@ -24,9 +24,9 @@ final class GroupToolsTest extends TestCase
 {
     private GroupTools $groupTools;
 
-    private GroupService&MockObject $groupService;
+    private MockObject $groupService;
 
-    private LoggerInterface&MockObject $logger;
+    private MockObject $logger;
 
     protected function setUp(): void
     {

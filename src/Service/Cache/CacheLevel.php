@@ -10,7 +10,7 @@ use Psr\Cache\CacheItemPoolInterface;
 /**
  * 缓存级别处理器.
  */
-class CacheLevel
+final class CacheLevel
 {
     /**
      * @param array<string, mixed> $config

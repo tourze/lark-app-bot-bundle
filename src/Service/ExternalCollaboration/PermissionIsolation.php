@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 用于实现内外部用户的权限隔离
  */
 #[Autoconfigure(public: true)]
-class PermissionIsolation
+final class PermissionIsolation
 {
     /**
      * 权限级别常量.

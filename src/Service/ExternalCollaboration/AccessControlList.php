@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 管理资源的访问权限
  */
 #[Autoconfigure(public: true)]
-class AccessControlList
+final class AccessControlList
 {
     /**
      * 访问控制类型.
@@ -262,6 +262,7 @@ class AccessControlList
 
         /** @var array<string, mixed> $conditions */
         $conditions = $rule['conditions'];
+
         return $this->matchPrincipal($rule['principal'], $userId, $context)
             && $this->evaluateConditions($conditions, $context);
     }
@@ -331,6 +332,7 @@ class AccessControlList
         if ('external:*' === $principal) {
             /** @var mixed $isExternal */
             $isExternal = $context['is_external'] ?? false;
+
             return (bool) $isExternal;
         }
 

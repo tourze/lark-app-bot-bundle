@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * 权限检查器.
  */
-class PermissionsChecker extends BaseChecker
+final class PermissionsChecker extends BaseChecker
 {
     public function getName(): string
     {

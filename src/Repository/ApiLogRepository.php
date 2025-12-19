@@ -18,7 +18,7 @@ use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
  * @method ApiLog[]    findBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null, $limit = null, $offset = null)
  */
 #[AsRepository(entityClass: ApiLog::class)]
-class ApiLogRepository extends ServiceEntityRepository
+final class ApiLogRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -18,7 +18,7 @@ use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
  * @method BotConfiguration[]    findBy(array<string, mixed> $criteria, ?array<string, string> $orderBy = null, $limit = null, $offset = null)
  */
 #[AsRepository(entityClass: BotConfiguration::class)]
-class BotConfigurationRepository extends ServiceEntityRepository
+final class BotConfigurationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -27,11 +27,11 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
 {
     private SendMessageHandler $handler;
 
-    private MockObject&MessageService $mockMessageService;
+    private MockObject $mockMessageService;
 
-    private MockObject&LoggerInterface $mockLogger;
+    private MockObject $mockLogger;
 
-    private MockObject&PerformanceMonitor $mockPerformanceMonitor;
+    private MockObject $mockPerformanceMonitor;
 
     public function testHandlerDropsStaleMessage(): void
     {
@@ -99,7 +99,7 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
                 self::isCallable()
             )
             ->willReturnCallback(function ($msgType, $callback) {
-                // @phpstan-ignore symplify.noDynamicName (Mock callback必须动态调用)
+                // Mock callback必须动态调用
                 return $callback();
             })
         ;
@@ -348,7 +348,7 @@ final class SendMessageHandlerTest extends AbstractIntegrationTestCase
             ->willReturnCallback(function ($msgType, $callback) {
                 $this->assertSame('interactive', $msgType);
 
-                // @phpstan-ignore symplify.noDynamicName (Mock callback必须动态调用)
+                // Mock callback必须动态调用
                 return $callback();
             })
         ;

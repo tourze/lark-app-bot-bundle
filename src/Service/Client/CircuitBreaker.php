@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Exception\CircuitBreakerOpenException;
  * 用于保护API调用，防止雪崩效应
  */
 #[Autoconfigure(public: true)]
-class CircuitBreaker
+final class CircuitBreaker
 {
     /**
      * 熔断器状态.

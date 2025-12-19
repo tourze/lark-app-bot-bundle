@@ -8,6 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Tourze\LarkAppBotBundle\Exception\GenericApiException;
 use Tourze\PHPUnitBase\AbstractExceptionTestCase;
 
+/**
+ * @internal
+ */
 #[CoversClass(GenericApiException::class)]
 final class GenericApiExceptionTest extends AbstractExceptionTestCase
 {

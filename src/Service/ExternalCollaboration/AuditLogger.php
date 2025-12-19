@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Exception\InvalidAuditFormatException;
  * 记录外部协作相关的所有操作
  */
 #[Autoconfigure(public: true)]
-class AuditLogger
+final class AuditLogger
 {
     /**
      * 审计事件类型.
@@ -267,7 +267,6 @@ class AuditLogger
         return (new AuditStatistics($this->auditLogs))->get($days);
     }
 
-
     /**
      * 导出审计日志.
      *
@@ -279,6 +278,7 @@ class AuditLogger
     public function export(array $criteria = [], string $format = 'json'): string
     {
         $logs = $this->query($criteria, \PHP_INT_MAX);
+
         return (new AuditExporter())->export($logs, $format);
     }
 

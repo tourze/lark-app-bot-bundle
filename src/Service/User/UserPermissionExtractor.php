@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\User;
 /**
  * 用户权限提取器.
  */
-class UserPermissionExtractor
+final class UserPermissionExtractor
 {
     /**
      * 提取用户权限信息.

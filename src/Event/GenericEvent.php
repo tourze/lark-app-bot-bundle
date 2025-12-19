@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Event;
  *
  * 用于处理未定义具体类型的事件
  */
-class GenericEvent extends LarkEvent
+final class GenericEvent extends LarkEvent
 {
     /**
      * 获取数据字段.

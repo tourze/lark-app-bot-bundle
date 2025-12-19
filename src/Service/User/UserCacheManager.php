@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 提供统一的用户数据缓存策略和管理功能
  */
 #[Autoconfigure(public: true)]
-class UserCacheManager implements UserCacheManagerInterface
+final class UserCacheManager implements UserCacheManagerInterface
 {
     private const CACHE_PREFIX = 'lark_user_';
     private const CACHE_SEARCH_PREFIX = 'lark_user_search_';

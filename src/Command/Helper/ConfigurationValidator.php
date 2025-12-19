@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * 配置验证辅助类.
  */
-class ConfigurationValidator
+final class ConfigurationValidator
 {
     /**
      * @param array<string, mixed> $config

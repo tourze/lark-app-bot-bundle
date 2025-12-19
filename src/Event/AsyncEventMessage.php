@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Event;
  *
  * 用于在消息队列中传递事件信息
  */
-class AsyncEventMessage
+final class AsyncEventMessage
 {
     /**
      * @param array<string, mixed> $eventData

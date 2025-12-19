@@ -9,7 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Webhook配置检查器.
  */
-class WebhookConfigChecker extends BaseChecker
+final class WebhookConfigChecker extends BaseChecker
 {
     public function getName(): string
     {

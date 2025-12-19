@@ -20,7 +20,7 @@ use Tourze\LarkAppBotBundle\Event\UserEvent;
  *
  * 将飞书的事件转换为Symfony事件并分发
  */
-class EventDispatcher
+final class EventDispatcher
 {
     /**
      * 事件映射表.

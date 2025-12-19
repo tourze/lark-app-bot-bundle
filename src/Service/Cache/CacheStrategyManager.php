@@ -14,7 +14,7 @@ use Tourze\LarkAppBotBundle\Service\Performance\PerformanceMonitor;
  * 根据不同的数据类型和访问模式选择最优的缓存策略.
  */
 #[Autoconfigure(public: true)]
-class CacheStrategyManager
+final class CacheStrategyManager
 {
     /**
      * 缓存策略常量.

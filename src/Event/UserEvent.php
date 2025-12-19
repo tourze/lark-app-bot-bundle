@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Event;
 /**
  * 用户事件.
  */
-class UserEvent extends LarkEvent
+final class UserEvent extends LarkEvent
 {
     public const USER_CREATED = 'lark.user.created';
     public const USER_UPDATED = 'lark.user.updated';

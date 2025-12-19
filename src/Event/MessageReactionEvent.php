@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Event;
 /**
  * 消息反应事件（表情回复）.
  */
-class MessageReactionEvent extends LarkEvent
+final class MessageReactionEvent extends LarkEvent
 {
     /**
      * 获取消息ID.

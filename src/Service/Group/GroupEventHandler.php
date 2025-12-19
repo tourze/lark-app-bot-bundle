@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
  * 处理群组相关的各种事件
  */
 #[Autoconfigure(public: true)]
-class GroupEventHandler
+final class GroupEventHandler
 {
     public function __construct(
         private readonly LoggerInterface $logger,

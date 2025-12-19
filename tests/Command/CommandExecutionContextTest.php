@@ -28,7 +28,7 @@ final class CommandExecutionContextTest extends AbstractIntegrationTestCase
         $this->assertFalse($ctx->showDepartment);
         $this->assertTrue($ctx->showGroups);
         $this->assertSame('json', $ctx->format);
-        $this->assertSame(['name','email'], $ctx->fields);
+        $this->assertSame(['name', 'email'], $ctx->fields);
     }
 
     public function testReadonlyPropertiesDefinition(): void
@@ -36,7 +36,7 @@ final class CommandExecutionContextTest extends AbstractIntegrationTestCase
         $ref = new \ReflectionClass(CommandExecutionContext::class);
         $props = array_map(fn ($p) => $p->getName(), $ref->getProperties());
 
-        foreach (['identifier','type','isBatch','showDepartment','showGroups','format','fields'] as $expected) {
+        foreach (['identifier', 'type', 'isBatch', 'showDepartment', 'showGroups', 'format', 'fields'] as $expected) {
             $this->assertContains($expected, $props);
         }
     }

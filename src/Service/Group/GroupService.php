@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClient;
  * 提供群组创建、管理、成员操作等功能
  */
 #[Autoconfigure(public: true)]
-class GroupService
+final class GroupService
 {
     public function __construct(
         private readonly LarkClient $client,

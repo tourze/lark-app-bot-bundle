@@ -8,7 +8,7 @@ namespace Tourze\LarkAppBotBundle\Exception;
  * 无效测试异常
  * 当请求执行不存在的安全测试时抛出此异常.
  */
-class InvalidTestException extends \RuntimeException
+final class InvalidTestException extends \RuntimeException
 {
     public static function unknownTest(string $testName): self
     {

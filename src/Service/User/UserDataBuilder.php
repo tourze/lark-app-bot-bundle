@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 用户数据构建器.
  */
 #[Autoconfigure(public: true)]
-class UserDataBuilder
+final class UserDataBuilder
 {
     private const DATA_VERSION = '1.0';
 

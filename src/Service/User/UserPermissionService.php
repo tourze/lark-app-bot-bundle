@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 负责处理用户权限检查和管理
  */
 #[Autoconfigure(public: true)]
-class UserPermissionService
+final class UserPermissionService
 {
     public function __construct(
         private readonly LoggerInterface $logger,

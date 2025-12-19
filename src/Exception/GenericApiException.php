@@ -11,4 +11,16 @@ namespace Tourze\LarkAppBotBundle\Exception;
  */
 final class GenericApiException extends ApiException
 {
+    /**
+     * 创建带详情的异常.
+     *
+     * @param array<string, mixed> $errorData
+     */
+    public static function withDetails(string $message, int $code, array $errorData, ?\Throwable $previous = null): self
+    {
+        $exception = new self($message, $code, $previous);
+        $exception->setErrorData($errorData);
+
+        return $exception;
+    }
 }

@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
  * 统一处理飞书相关异常，返回标准化的错误响应
  */
 #[Autoconfigure(public: true)]
-class ExceptionHandler
+final class ExceptionHandler
 {
     /**
      * 错误级别映射.

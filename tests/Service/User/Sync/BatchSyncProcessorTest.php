@@ -313,13 +313,14 @@ final class BatchSyncProcessorTest extends AbstractIntegrationTestCase
         $this->errorHandler = self::createMock(SyncErrorHandler::class);
         $this->logger = self::createMock(LoggerInterface::class);
 
-        // @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass (需要直接实例化以避免容器服务已初始化的问题)
-        $this->processor = new BatchSyncProcessor(
-            $this->userService,
-            $this->dataProcessor,
-            $this->strategyManager,
-            $this->errorHandler,
-            $this->logger
-        );
+        // 将 Mock 服务注入到容器中
+        self::getContainer()->set(UserServiceInterface::class, $this->userService);
+        self::getContainer()->set(UserDataProcessor::class, $this->dataProcessor);
+        self::getContainer()->set(SyncStrategyManager::class, $this->strategyManager);
+        self::getContainer()->set(SyncErrorHandler::class, $this->errorHandler);
+        self::getContainer()->set('logger', $this->logger);
+
+        // 从容器获取被测试的服务
+        $this->processor = self::getService(BatchSyncProcessor::class);
     }
 }

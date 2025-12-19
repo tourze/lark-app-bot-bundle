@@ -24,15 +24,15 @@ final class UserServiceRefactoredTest extends AbstractIntegrationTestCase
 {
     private UserServiceRefactored $service;
 
-    private UserDataService&MockObject $dataService;
+    private MockObject $dataService;
 
-    private UserCacheService&MockObject $cacheService;
+    private MockObject $cacheService;
 
-    private UserSearchService&MockObject $searchService;
+    private MockObject $searchService;
 
-    private UserPermissionService&MockObject $permissionService;
+    private MockObject $permissionService;
 
-    private UserRelationService&MockObject $relationService;
+    private MockObject $relationService;
 
     public function testGetUser(): void
     {

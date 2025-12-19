@@ -21,7 +21,7 @@ use Tourze\LarkAppBotBundle\Service\User\Sync\UserEventDispatcher;
  */
 #[Autoconfigure(public: true)]
 #[WithMonologChannel(channel: 'lark_app_bot')]
-class UserSyncServiceRefactored implements UserSyncServiceInterface
+final class UserSyncServiceRefactored implements UserSyncServiceInterface
 {
     public function __construct(
         private readonly UserServiceInterface $userService,

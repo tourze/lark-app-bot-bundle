@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message\Builder;
 /**
  * 卡片交互元素构建器.
  */
-class CardActionBuilder
+final class CardActionBuilder
 {
     /**
      * 构建按钮组.

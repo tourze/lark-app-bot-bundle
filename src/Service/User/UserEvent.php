@@ -9,7 +9,7 @@ namespace Tourze\LarkAppBotBundle\Service\User;
  *
  * 用于表示用户相关的各种事件
  */
-class UserEvent
+final class UserEvent
 {
     public const USER_UPDATED = 'user.updated';
     public const USER_DELETED = 'user.deleted';

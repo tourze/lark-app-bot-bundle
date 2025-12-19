@@ -17,7 +17,7 @@ use Tourze\LarkAppBotBundle\Service\Client\LarkClient;
  * 管理包含外部用户的群组
  */
 #[Autoconfigure(public: true)]
-class ExternalGroupManager
+final class ExternalGroupManager
 {
     private LarkClient $client;
 

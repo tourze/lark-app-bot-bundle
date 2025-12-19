@@ -21,7 +21,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * - 用户数据的批量操作
  */
 #[Autoconfigure(public: true)]
-class UserDataManager
+final class UserDataManager
 {
     public function __construct(
         private readonly UserServiceInterface $userService,

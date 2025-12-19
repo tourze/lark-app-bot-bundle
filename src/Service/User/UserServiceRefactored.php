@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 通过组合各个专门的子服务实现功能，降低复杂度
  */
 #[Autoconfigure(public: true)]
-class UserServiceRefactored implements UserServiceInterface
+final class UserServiceRefactored implements UserServiceInterface
 {
     public function __construct(
         private readonly UserDataService $dataService,

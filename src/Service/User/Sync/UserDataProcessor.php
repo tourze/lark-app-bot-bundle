@@ -15,7 +15,7 @@ use Tourze\LarkAppBotBundle\Service\User\UserServiceInterface;
  * 负责用户数据的缓存、相关数据提取和权限处理
  */
 #[Autoconfigure(public: true)]
-class UserDataProcessor
+final class UserDataProcessor
 {
     public function __construct(
         private readonly UserServiceInterface $userService,

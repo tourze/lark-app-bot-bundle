@@ -10,6 +10,9 @@ use Tourze\LarkAppBotBundle\Service\ExternalCollaboration\AuditLogger;
 use Tourze\LarkAppBotBundle\Service\ExternalCollaboration\AuditStatistics;
 use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
+/**
+ * @internal
+ */
 #[CoversClass(AuditStatistics::class)]
 #[RunTestsInSeparateProcesses]
 final class AuditStatisticsTest extends AbstractIntegrationTestCase

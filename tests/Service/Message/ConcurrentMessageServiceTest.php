@@ -27,11 +27,11 @@ final class ConcurrentMessageServiceTest extends AbstractIntegrationTestCase
 {
     private ConcurrentMessageService $service;
 
-    private MockObject&MessageService $mockMessageService;
+    private MockObject $mockMessageService;
 
-    private MockObject&MessageBusInterface $mockMessageBus;
+    private MockObject $mockMessageBus;
 
-    private MockObject&LoggerInterface $mockLogger;
+    private MockObject $mockLogger;
 
     public function testSendWithBuilderSyncMode(): void
     {
@@ -397,20 +397,23 @@ final class ConcurrentMessageServiceTest extends AbstractIntegrationTestCase
 
     protected function onSetUp(): void
     {
-        // 先创建依赖的 mock，并将被测服务以异步为默认模式注入容器
+        // 先创建依赖的 mock
         $this->mockMessageService = $this->createMock(MessageService::class);
         $this->mockMessageBus = $this->createMock(MessageBusInterface::class);
         $this->mockLogger = $this->createMock(LoggerInterface::class);
 
-        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
-        $instance = new ConcurrentMessageService(
-            $this->mockMessageService,
-            $this->mockMessageBus,
-            $this->mockLogger,
-            ConcurrentMessageService::MODE_ASYNC,
-        );
+        // 将 Mock 服务注入到容器中
+        self::getContainer()->set(MessageService::class, $this->mockMessageService);
+        self::getContainer()->set('messenger.default_bus', $this->mockMessageBus);
+        self::getContainer()->set('logger', $this->mockLogger);
 
-        self::getContainer()->set(ConcurrentMessageService::class, $instance);
+        // 从容器获取被测试的服务
         $this->service = self::getService(ConcurrentMessageService::class);
+
+        // 使用反射修改 defaultMode 属性为异步模式
+        $reflection = new \ReflectionClass($this->service);
+        $defaultModeProperty = $reflection->getProperty('defaultMode');
+        $defaultModeProperty->setAccessible(true);
+        $defaultModeProperty->setValue($this->service, ConcurrentMessageService::MODE_ASYNC);
     }
 }

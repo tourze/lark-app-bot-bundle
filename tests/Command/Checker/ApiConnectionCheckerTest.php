@@ -153,22 +153,17 @@ final class ApiConnectionCheckerTest extends AbstractIntegrationTestCase
 
     protected function onSetUp(): void
     {
-        $config = [
-            'api_domain' => 'https://open.feishu.cn',
-            'app_id' => 'test_app_id',
-            'app_secret' => 'test_app_secret',
-        ];
-
         $this->mockLarkClient = $this->createMock(LarkClientInterface::class);
         $this->mockIo = $this->createMock(SymfonyStyle::class);
 
-        // 创建一个测试专用的checker类，mock网络连接
-        $this->checker = new class ($config, $this->mockLarkClient) extends ApiConnectionChecker {
-            protected function canConnectToHost(?string $host): bool
-            {
-                // 在测试环境中网络连接总是失败，这符合测试期望
-                return false;
-            }
-        };
+        // 从容器获取服务，集成测试要求这样做
+        $this->checker = self::getService(ApiConnectionChecker::class);
+    }
+
+    protected function prepareMockServices(): void
+    {
+        // 设置Mock服务到容器中
+        $container = self::getContainer();
+        $container->set('tourze.lark_app_bot.client', $this->mockLarkClient);
     }
 }

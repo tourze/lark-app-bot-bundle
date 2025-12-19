@@ -11,7 +11,7 @@ use Tourze\LarkAppBotBundle\Service\Message\Builder\RichTextBuilder;
  * 欢迎消息模板
  * 用于新用户加入时的欢迎消息.
  */
-class WelcomeMessageTemplate extends AbstractMessageTemplate
+final class WelcomeMessageTemplate extends AbstractMessageTemplate
 {
     public function getName(): string
     {

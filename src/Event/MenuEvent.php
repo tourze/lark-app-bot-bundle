@@ -8,7 +8,7 @@ namespace Tourze\LarkAppBotBundle\Event;
  * 机器人菜单事件
  * 当用户点击机器人菜单时触发.
  */
-class MenuEvent extends LarkEvent
+final class MenuEvent extends LarkEvent
 {
     /**
      * 事件类型常量.

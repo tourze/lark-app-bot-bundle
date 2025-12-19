@@ -12,7 +12,7 @@ use Tourze\LarkAppBotBundle\Service\Message\Builder\CardMessageBuilder;
  * 提供预定义的卡片模板
  */
 #[Autoconfigure(public: true)]
-class CardTemplateManager
+final class CardTemplateManager
 {
     /**
      * 预定义模板

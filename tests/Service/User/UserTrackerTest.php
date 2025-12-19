@@ -352,10 +352,14 @@ final class UserTrackerTest extends AbstractIntegrationTestCase
         // 创建 mock 对象
         $this->cache = self::createMock(CacheItemPoolInterface::class);
         $this->eventDispatcher = self::createMock(EventDispatcherInterface::class);
-
-        // 直接构造被测服务，确保依赖均为 Mock
         $logger = $this->createMock(LoggerInterface::class);
-        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
-        $this->tracker = new UserTracker($this->cache, $this->eventDispatcher, $logger);
+
+        // 将 Mock 服务注入到容器中
+        self::getContainer()->set('lark_app_bot.cache', $this->cache);
+        self::getContainer()->set('event_dispatcher', $this->eventDispatcher);
+        self::getContainer()->set('logger', $logger);
+
+        // 从容器获取被测试的服务
+        $this->tracker = self::getService(UserTracker::class);
     }
 }

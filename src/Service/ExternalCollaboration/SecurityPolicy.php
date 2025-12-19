@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 定义和执行外部协作的安全规则
  */
 #[Autoconfigure(public: true)]
-class SecurityPolicy
+final class SecurityPolicy
 {
     /**
      * 安全策略类型.

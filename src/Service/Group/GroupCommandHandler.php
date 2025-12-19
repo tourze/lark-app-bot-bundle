@@ -16,7 +16,7 @@ use Tourze\LarkAppBotBundle\Service\Message\MessageService;
  * 处理群组相关的命令，如 /add、/remove、/list 等
  */
 #[Autoconfigure(public: true)]
-class GroupCommandHandler extends AbstractMessageHandler
+final class GroupCommandHandler extends AbstractMessageHandler
 {
     private const COMMAND_PREFIX = '/';
 

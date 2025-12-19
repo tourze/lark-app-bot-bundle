@@ -71,20 +71,4 @@ abstract class ApiException extends LarkException
     {
         $this->errorData = $errorData;
     }
-
-    /**
-     * 创建带详情的异常.
-     *
-     * @param array<string, mixed> $errorData
-     *
-     * @phpstan-return static
-     */
-    public static function withDetails(string $message, int $code, array $errorData, ?\Throwable $previous = null): static
-    {
-        /** @phpstan-ignore new.static */
-        $exception = new static($message, $code, $previous);
-        $exception->setErrorData($errorData);
-
-        return $exception;
-    }
 }

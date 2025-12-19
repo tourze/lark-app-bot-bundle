@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
  * 用户数据缓存管理器.
  */
 #[Autoconfigure(public: true)]
-class UserDataCacheManager
+final class UserDataCacheManager
 {
     private const CACHE_PREFIX = 'lark_user_data_';
     private const CACHE_TTL = 7200; // 2小时

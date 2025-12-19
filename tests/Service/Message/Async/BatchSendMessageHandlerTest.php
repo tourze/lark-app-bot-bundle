@@ -27,13 +27,13 @@ final class BatchSendMessageHandlerTest extends AbstractIntegrationTestCase
 {
     private BatchSendMessageHandler $handler;
 
-    private MockObject&MessageService $mockMessageService;
+    private MockObject $mockMessageService;
 
-    private MockObject&MessageBusInterface $mockMessageBus;
+    private MockObject $mockMessageBus;
 
-    private MockObject&LoggerInterface $mockLogger;
+    private MockObject $mockLogger;
 
-    private MockObject&PerformanceMonitor $mockPerformanceMonitor;
+    private MockObject $mockPerformanceMonitor;
 
     public function testHandlerDropsStaleMessage(): void
     {
@@ -222,14 +222,14 @@ final class BatchSendMessageHandlerTest extends AbstractIntegrationTestCase
 
     public function testHandlerWithoutPerformanceMonitor(): void
     {
-        // 直接构造 Handler（没有性能监控器），避免替换已初始化的框架 logger 服务
-        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
-        $handler = new BatchSendMessageHandler(
-            $this->mockMessageService,
-            $this->mockMessageBus,
-            $this->mockLogger,
-            null
-        );
+        // 将 Mock 服务注入到容器中，没有性能监控器
+        self::getContainer()->set(MessageService::class, $this->mockMessageService);
+        self::getContainer()->set('messenger.default_bus', $this->mockMessageBus);
+        self::getContainer()->set('logger', $this->mockLogger);
+        self::getContainer()->set(PerformanceMonitor::class, null);
+
+        // 从容器获取被测试的服务
+        $handler = self::getService(BatchSendMessageHandler::class);
 
         $command = new BatchSendMessageCommand(
             ['user1'],
@@ -248,19 +248,19 @@ final class BatchSendMessageHandlerTest extends AbstractIntegrationTestCase
 
     protected function onSetUp(): void
     {
-        // 创建 mock 对象用于测试隔离（直接构造被测实例，避免容器中已初始化服务无法替换的问题）
+        // 创建 mock 对象用于测试隔离
         $this->mockMessageService = $this->createMock(MessageService::class);
         $this->mockMessageBus = $this->createMock(MessageBusInterface::class);
         $this->mockLogger = $this->createMock(LoggerInterface::class);
         $this->mockPerformanceMonitor = $this->createMock(PerformanceMonitor::class);
 
-        // 直接构造被测实例，确保测试完全控制依赖
-        /** @phpstan-ignore integrationTest.noDirectInstantiationOfCoveredClass */
-        $this->handler = new BatchSendMessageHandler(
-            $this->mockMessageService,
-            $this->mockMessageBus,
-            $this->mockLogger,
-            $this->mockPerformanceMonitor
-        );
+        // 将 Mock 服务注入到容器中
+        self::getContainer()->set(MessageService::class, $this->mockMessageService);
+        self::getContainer()->set('messenger.default_bus', $this->mockMessageBus);
+        self::getContainer()->set('logger', $this->mockLogger);
+        self::getContainer()->set(PerformanceMonitor::class, $this->mockPerformanceMonitor);
+
+        // 从容器获取被测试的服务
+        $this->handler = self::getService(BatchSendMessageHandler::class);
     }
 }

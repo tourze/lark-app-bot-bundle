@@ -13,7 +13,7 @@ use Tourze\LarkAppBotBundle\Exception\ValidationException;
  * 支持构建飞书卡片消息的JSON结构（Schema 2.0）.
  */
 #[Autoconfigure(public: true)]
-class CardMessageBuilder implements MessageBuilderInterface
+final class CardMessageBuilder implements MessageBuilderInterface
 {
     /**
      * 卡片配置.
@@ -146,7 +146,6 @@ class CardMessageBuilder implements MessageBuilderInterface
      * @param string      $title    标题
      * @param string|null $template 模板颜色 (blue|turquoise|orange|red|grey|green|purple|indigo|wathet)
      * @param string|null $icon     图标
-     *
      */
     public function setHeader(string $title, ?string $template = null, ?string $icon = null): self
     {

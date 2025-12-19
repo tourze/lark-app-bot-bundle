@@ -8,7 +8,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message\Async;
  * 批量发送消息命令
  * 用于高效地批量发送消息.
  */
-class BatchSendMessageCommand
+final class BatchSendMessageCommand
 {
     /**
      * @param array<string>               $receiveIds

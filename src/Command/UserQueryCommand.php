@@ -59,7 +59,7 @@ use Tourze\LarkAppBotBundle\Service\User\UserTools;
     - city: 城市
     - country: 国家
     TXT)]
-class UserQueryCommand extends Command
+final class UserQueryCommand extends Command
 {
     public const NAME = 'lark:user:query';
 

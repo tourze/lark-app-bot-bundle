@@ -7,7 +7,7 @@ namespace Tourze\LarkAppBotBundle\Service\Message\Builder\Card;
 /**
  * 按钮元素.
  */
-class ButtonElement extends CardElement
+final class ButtonElement extends CardElement
 {
     /**
      * 按钮类型常量.
